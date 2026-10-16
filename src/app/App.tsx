@@ -2,7 +2,10 @@ import { lazy, Suspense, useState } from 'react';
 import { useRegisterSW } from 'virtual:pwa-register/react';
 import { CalendarDays, Settings as SettingsIcon, UserRound, Users } from 'lucide-react';
 import { Route, Switch, useLocation } from 'wouter';
+import { Plus } from 'lucide-react';
 import { Screen, TabBar, ToastProvider, type Tab } from '../ui';
+import { ShiftEditorProvider, useShiftEditor } from '../features/shift-editor/ShiftEditorContext';
+import { DayList } from '../features/team/DayList';
 import { Onboarding } from '../features/onboarding/Onboarding';
 import { SettingsHome } from '../features/settings/SettingsHome';
 import { PeopleScreen } from '../features/settings/PeopleScreen';
@@ -41,6 +44,20 @@ function Placeholder({ title, text }: { title: string; text: string }) {
   );
 }
 
+function Fab() {
+  const { openAdd } = useShiftEditor();
+  return (
+    <button
+      type="button"
+      aria-label="Dodaj zmianę"
+      className={`${styles.fab} glass pressable`}
+      onClick={() => openAdd()}
+    >
+      <Plus size={26} strokeWidth={2} />
+    </button>
+  );
+}
+
 function Shell() {
   const settings = useSettings();
   const [location, navigate] = useLocation();
@@ -56,13 +73,13 @@ function Shell() {
   );
 
   return (
-    <>
+    <ShiftEditorProvider settings={settings}>
       <Switch>
         <Route path="/">
           <Placeholder title="Mój grafik" text="Tu pojawią się Twoje najbliższe zmiany." />
         </Route>
         <Route path="/team">
-          <Placeholder title="Zespół" text="Tu pojawi się grafik całego zespołu." />
+          <DayList />
         </Route>
         <Route path="/calendar">
           <Placeholder title="Kalendarz" text="Tu pojawi się kalendarz miesięczny." />
@@ -85,13 +102,14 @@ function Shell() {
           tabs={TABS}
           active={active?.id ?? 'me'}
           compact={compact}
+          action={<Fab />}
           onChange={(id) => {
             setCompact(false);
             navigate(TABS.find((t) => t.id === id)?.path ?? '/');
           }}
         />
       )}
-    </>
+    </ShiftEditorProvider>
   );
 }
 

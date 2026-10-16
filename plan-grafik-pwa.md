@@ -684,9 +684,9 @@ grafik-pwa/
 
 ### Faza 5 — Ręczne zarządzanie grafikiem
 
-- [ ] Sheet dodawania: wiele osób × wiele dni, szybkie zaznaczenia, godziny domyślne, typy wpisów.
-- [ ] Edycja, usuwanie (swipe, sheet, tryb zaznaczania), cofanie.
-- [ ] Walidacja konfliktów.
+- [x] Sheet dodawania: wiele osób × wiele dni, szybkie zaznaczenia, godziny domyślne, typy wpisów.
+- [x] Edycja, usuwanie (swipe, sheet, tryb zaznaczania), cofanie.
+- [x] Walidacja konfliktów.
 - **Akceptacja:** dodanie 2 osobom zmian na cały tydzień w ≤ 5 tapnięciach; piątek i sobota automatycznie 10:00–23:00.
 
 ### Faza 6 — Widoki

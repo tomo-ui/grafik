@@ -170,6 +170,14 @@ export function createRepos(d: GrafikDB = db) {
         return { added, skipped, replaced };
       });
     },
+    /** Cofnięcie dodania: usuwa dodane i przywraca zastąpione (jedna transakcja). */
+    async undoAdd(added: Shift[], replaced: Shift[]): Promise<void> {
+      await d.transaction('rw', d.shifts, async () => {
+        const at = Date.now();
+        await Promise.all(added.map((s) => d.shifts.update(s.id, { deletedAt: at })));
+        await Promise.all(replaced.map((s) => d.shifts.update(s.id, { deletedAt: undefined })));
+      });
+    },
     async update(id: string, patch: Partial<Omit<Shift, 'id'>>): Promise<void> {
       await d.transaction('rw', d.shifts, async () => {
         const cur = await d.shifts.get(id);

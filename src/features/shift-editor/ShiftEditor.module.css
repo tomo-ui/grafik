@@ -1,0 +1,200 @@
+/* Kalendarz wielokrotnego wyboru */
+.cal {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-group);
+  padding: 0.5rem 0.5rem 0.75rem;
+}
+.calHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.calTitle {
+  font-weight: 600;
+  text-transform: capitalize;
+}
+.calNav {
+  min-width: var(--touch);
+  min-height: var(--touch);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+}
+.calWeek,
+.calGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  justify-items: center;
+}
+.calWeek {
+  font-size: var(--fs-caption);
+  color: var(--label-secondary);
+  padding-bottom: 4px;
+}
+.calGrid {
+  touch-action: pan-y;
+  user-select: none;
+}
+.calDay {
+  isolation: isolate;
+  width: 100%;
+  max-width: 48px;
+  min-height: var(--touch);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border-radius: 50%;
+  font-size: var(--fs-body);
+}
+.calWeekend {
+  color: var(--label-secondary);
+}
+.calToday {
+  color: var(--accent);
+  font-weight: 700;
+}
+.calOn {
+  color: #fff;
+  font-weight: 600;
+}
+.calOn::before {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 50%;
+  width: 38px;
+  height: 38px;
+  margin-left: -19px;
+  border-radius: 50%;
+  background: var(--accent);
+  z-index: -1;
+}
+
+/* Chipsy osób */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 0.75rem 1rem;
+  background: var(--bg-secondary);
+}
+.personChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: var(--touch);
+  padding: 0 1rem 0 0.75rem;
+  border-radius: 999px;
+  background: var(--fill);
+  font-size: var(--fs-subhead);
+  border: 2px solid transparent;
+}
+.personChipOn {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  font-weight: 600;
+}
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+/* Szybkie akcje */
+.quick {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 0 calc(var(--sar) + 1rem) 0.75rem calc(var(--sal) + 1rem);
+}
+.quick::-webkit-scrollbar {
+  display: none;
+}
+.quickBtn {
+  flex-shrink: 0;
+  min-height: 36px;
+  padding: 0 0.875rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  color: var(--accent);
+  font-size: var(--fs-subhead);
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  /* obszar dotyku >= 44 pt dzięki marginesowi hit-area */
+  position: relative;
+}
+.quickBtn::after {
+  content: '';
+  position: absolute;
+  inset: -4px 0;
+}
+
+.dateRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 52px;
+  padding: 0 1rem;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-group);
+}
+.dateRow input {
+  min-height: var(--touch);
+  border: 0;
+  background: var(--fill);
+  border-radius: 10px;
+  padding: 0 0.5rem;
+  color: inherit;
+}
+
+.warn {
+  margin: 0;
+  padding: 0 calc(var(--sar) + 1.25rem) 0.75rem calc(var(--sal) + 1.25rem);
+  font-size: var(--fs-footnote);
+  color: var(--orange);
+}
+.err {
+  margin: 0;
+  padding: 0 calc(var(--sar) + 1.25rem) 0.75rem calc(var(--sal) + 1.25rem);
+  font-size: var(--fs-footnote);
+  color: var(--red);
+}
+.summary {
+  margin: 0;
+  padding: 0 calc(var(--sar) + 1.25rem) 0.5rem calc(var(--sal) + 1.25rem);
+  font-size: var(--fs-footnote);
+  color: var(--label-secondary);
+}
+.sectionPad {
+  padding: 0 calc(var(--sar) + 1rem) 1rem calc(var(--sal) + 1rem);
+}
+.headRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin: 0 calc(var(--sar) + 1.25rem) 0.4rem calc(var(--sal) + 1.25rem);
+  font-size: var(--fs-footnote);
+  text-transform: uppercase;
+  color: var(--label-secondary);
+}
+.headRow h2 {
+  margin: 0;
+  font-size: inherit;
+  font-weight: 400;
+}
+.headRow button {
+  min-height: var(--touch);
+  margin: -12px 0;
+  padding: 0 0.25rem;
+  color: var(--accent);
+  text-transform: none;
+  font-size: var(--fs-subhead);
+}
+.previewNote {
+  font-size: var(--fs-footnote);
+  color: var(--label-secondary);
+}

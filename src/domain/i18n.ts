@@ -1,3 +1,6 @@
+import { fromISODate } from './dates';
+import type { ISODate } from './types';
+
 const rules = new Intl.PluralRules('pl-PL');
 const numberFmt = new Intl.NumberFormat('pl-PL', { maximumFractionDigits: 2 });
 
@@ -39,3 +42,20 @@ export const DAY_NAMES = [
   'Sobota',
 ] as const;
 export const DAY_SHORT = ['Nd', 'Pn', 'Wt', 'Śr', 'Cz', 'Pt', 'Sb'] as const;
+
+const dayFmt = new Intl.DateTimeFormat('pl-PL', { weekday: 'long', day: 'numeric', month: 'long' });
+const dayShortFmt = new Intl.DateTimeFormat('pl-PL', {
+  weekday: 'short',
+  day: 'numeric',
+  month: 'short',
+});
+const monthFmt = new Intl.DateTimeFormat('pl-PL', { month: 'long', year: 'numeric' });
+
+/** „wtorek, 4 listopada” */
+export const formatDayLong = (d: ISODate) => dayFmt.format(fromISODate(d));
+/** „wt., 4 lis” */
+export const formatDayShort = (d: ISODate) => dayShortFmt.format(fromISODate(d));
+/** „listopad 2026” */
+export const formatMonth = (d: ISODate) => monthFmt.format(fromISODate(d));
+
+export const KOLIZJE = { one: 'kolizja', few: 'kolizje', many: 'kolizji' } as const;

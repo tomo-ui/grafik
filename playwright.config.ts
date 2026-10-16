@@ -21,12 +21,12 @@ export default defineConfig({
   projects: [
     {
       name: 'iphone-12',
-      testMatch: ['shell.spec.ts', 'app.spec.ts'],
+      testMatch: ['shell.spec.ts', 'app.spec.ts', 'shifts.spec.ts'],
       use: { ...devices['iPhone 12'], baseURL: 'http://localhost:4173' },
     },
     {
       name: 'pixel-7',
-      testMatch: ['shell.spec.ts', 'app.spec.ts'],
+      testMatch: ['shell.spec.ts', 'app.spec.ts', 'shifts.spec.ts'],
       use: { ...devices['Pixel 7'], baseURL: 'http://localhost:4173' },
     },
     {

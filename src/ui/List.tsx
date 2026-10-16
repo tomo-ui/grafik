@@ -137,6 +137,8 @@ export function SwipeActions({
   const width = actions.length * ACTION_W;
   const last = actions[actions.length - 1];
   const busy = useRef(false);
+  const downAt = useRef({ x: 0, y: 0 });
+  const startX = useRef(0);
 
   const settle = (to: number) => {
     setOpen(to !== 0);
@@ -175,8 +177,28 @@ export function SwipeActions({
         dragDirectionLock
         dragConstraints={{ left: -width * 2.2, right: 0 }}
         dragElastic={0.05}
+        // własna animacja domknięcia (settle) — bez bezwładności Motion, która by ją nadpisała
+        dragMomentum={false}
+        // przeciągnięcie albo otwarte akcje nie mogą wywołać „tapnięcia” w wierszu pod spodem
+        // „click” po przeciągnięciu blokujemy na podstawie ruchu wskaźnika (a nie zdarzeń Motion,
+        // które w klatkach animacji mogą przyjść później niż click); otwarte akcje: tap tylko zamyka
+        onPointerDownCapture={(e) => {
+          downAt.current = { x: e.clientX, y: e.clientY };
+        }}
+        onClickCapture={(e) => {
+          const moved = Math.hypot(e.clientX - downAt.current.x, e.clientY - downAt.current.y) > 8;
+          if (moved || open) {
+            e.stopPropagation();
+            e.preventDefault();
+            if (open && !moved) settle(0);
+          }
+        }}
+        onDragStart={() => {
+          startX.current = x.get();
+        }}
         onDragEnd={(_, info) => {
-          const cur = x.get();
+          // decyzja z przesunięcia wskaźnika, nie z x.get() (x nadąża dopiero w kolejnej klatce)
+          const cur = Math.min(0, Math.max(-width * 2.2, startX.current + info.offset.x));
           if (last && cur < -width * 1.6) return run(last);
           settle(cur < -width / 2 || info.velocity.x < -500 ? -width : 0);
         }}
