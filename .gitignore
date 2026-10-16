@@ -1,0 +1,8 @@
+node_modules
+dist
+dev-dist
+.env*
+test-results
+playwright-report
+docs/screens
+*.local

@@ -1,0 +1,99 @@
+:root {
+  color-scheme: light dark;
+  --bg-grouped: #f2f2f7;
+  --bg-secondary: #ffffff;
+  --label: #000000;
+  --separator: rgba(60, 60, 67, 0.29);
+  --accent: #007aff;
+  --font:
+    -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, 'Inter', 'Roboto', sans-serif;
+  --sat: env(safe-area-inset-top);
+  --sar: env(safe-area-inset-right);
+  --sab: env(safe-area-inset-bottom);
+  --sal: env(safe-area-inset-left);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-grouped: #000000;
+    --bg-secondary: #1c1c1e;
+    --label: #ffffff;
+    --separator: rgba(84, 84, 88, 0.6);
+    --accent: #0a84ff;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  overscroll-behavior: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-text-size-adjust: 100%;
+  background: var(--bg-grouped);
+  color: var(--label);
+  font-family: var(--font);
+  font-size: 1.0625rem;
+}
+
+/* UI nie jest treścią do zaznaczania (P-06); pola formularzy wyjątkiem */
+body {
+  -webkit-touch-callout: none;
+  user-select: none;
+}
+input,
+textarea {
+  user-select: text;
+}
+
+.app-shell {
+  min-height: 100dvh; /* P-11 */
+  padding: calc(var(--sat) + 1rem) calc(var(--sar) + 1rem) calc(var(--sab) + 1rem)
+    calc(var(--sal) + 1rem);
+}
+
+.large-title {
+  font-size: 2.125rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem;
+}
+
+/* P-13: pola >= 16 px, brak zoomu na iOS */
+input,
+select,
+textarea {
+  font-size: max(16px, 1rem);
+  font-family: inherit;
+}
+
+.field {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.update-banner {
+  position: fixed;
+  left: calc(var(--sal) + 1rem);
+  right: calc(var(--sar) + 1rem);
+  bottom: calc(var(--sab) + 1rem);
+  background: var(--bg-secondary);
+  border-radius: 14px;
+  padding: 0.75rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.update-banner button {
+  min-height: 44px;
+  min-width: 44px;
+  color: var(--accent);
+  background: none;
+  border: 0;
+  font: inherit;
+  font-weight: 600;
+}
