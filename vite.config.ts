@@ -34,7 +34,9 @@ export default defineConfig({
         ],
       },
       workbox: {
-        globPatterns: ['**/*.{js,css,html,png,svg,woff2}'],
+        // czcionki PDF (ttf) i worker pdf.js (mjs) w precache — eksport i podgląd działają offline
+        globPatterns: ['**/*.{js,mjs,css,html,png,svg,woff2,ttf}'],
+        maximumFileSizeToCacheInBytes: 3 * 1024 * 1024,
         navigateFallback: '/index.html',
         // Gemini zawsze przez sieć
         runtimeCaching: [

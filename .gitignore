@@ -6,3 +6,4 @@ test-results
 playwright-report
 docs/screens
 *.local
+docs/pdf-samples

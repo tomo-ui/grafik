@@ -9,12 +9,33 @@ interface OverlayEntry {
 const overlayStack: OverlayEntry[] = [];
 let pendingBacks = 0; // history.back() wywołane przez nas — ich popstate ignorujemy
 const waiters: (() => void)[] = [];
+let popEpoch = 0; // licznik zdarzeń popstate — wykrywa „zawieszone” history.back()
+
+function flushWaiters() {
+  waiters.splice(0).forEach((f) => f());
+}
+
+/**
+ * Zabezpieczenie: jeśli nasze history.back() nie wywoła popstate (np. gdy nie było dokąd wracać),
+ * licznik oczekujących nie może zostać na zawsze > 0 — wtedy kolejne nakładki nigdy by się nie
+ * zarejestrowały w historii.
+ */
+function armBackWatchdog() {
+  const epoch = popEpoch;
+  setTimeout(() => {
+    if (pendingBacks > 0 && popEpoch === epoch) {
+      pendingBacks = 0;
+      flushWaiters();
+    }
+  }, 1500);
+}
 
 if (typeof window !== 'undefined') {
   window.addEventListener('popstate', () => {
+    popEpoch++;
     if (pendingBacks > 0) {
       pendingBacks--;
-      if (pendingBacks === 0) waiters.splice(0).forEach((f) => f());
+      if (pendingBacks === 0) flushWaiters();
       return;
     }
     const top = overlayStack.pop();
@@ -59,6 +80,7 @@ export function useBackClose(open: boolean, onClose: () => void, resetKey?: unkn
       if (entry.pushed && !entry.poppedByUser) {
         pendingBacks++;
         window.history.back();
+        armBackWatchdog();
       }
     };
     // resetKey pozwala ponownie zarejestrować wpis historii (np. po anulowaniu pytania „Odrzucić?”)

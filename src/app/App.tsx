@@ -15,6 +15,7 @@ import { HoursScreen } from '../features/settings/HoursScreen';
 import { AiSettings } from '../features/settings/AiSettings';
 import { ImportHistory } from '../features/settings/ImportHistory';
 import { ScanProvider, useScan } from '../features/scan/ScanProvider';
+import { PdfProvider, usePdfExport } from '../features/pdf/PdfProvider';
 import { useSettings } from './data';
 import { useTheme } from './theme';
 import styles from './App.module.css';
@@ -52,6 +53,7 @@ function Placeholder({ title, text }: { title: string; text: string }) {
 function Fab() {
   const { openAdd } = useShiftEditor();
   const { openScan } = useScan();
+  const { openPdf } = usePdfExport();
   return (
     <MenuButton
       label="Dodaj"
@@ -59,6 +61,7 @@ function Fab() {
       items={[
         { label: 'Dodaj zmianę', onSelect: () => openAdd() },
         { label: 'Skanuj grafik', onSelect: () => openScan() },
+        { label: 'Eksportuj PDF', onSelect: () => openPdf() },
       ]}
     >
       <Plus size={26} strokeWidth={2} />
@@ -83,47 +86,49 @@ function Shell() {
   return (
     <ShiftEditorProvider settings={settings}>
       <ScanProvider settings={settings}>
-        <Switch>
-          <Route path="/">
-            <MySchedule settings={settings} />
-          </Route>
-          <Route path="/team">
-            <TeamScreen settings={settings} />
-          </Route>
-          <Route path="/calendar">
-            <CalendarView settings={settings} />
-          </Route>
-          <Route path="/settings">
-            <SettingsHome settings={settings} />
-          </Route>
-          <Route path="/settings/people">
-            <PeopleScreen />
-          </Route>
-          <Route path="/settings/hours">
-            <HoursScreen />
-          </Route>
-          <Route path="/settings/ai">
-            <AiSettings />
-          </Route>
-          <Route path="/settings/imports">
-            <ImportHistory />
-          </Route>
-          <Route>
-            <Placeholder title="Nie znaleziono" text="Ta strona nie istnieje." />
-          </Route>
-        </Switch>
-        {!isSub && (
-          <TabBar
-            tabs={TABS}
-            active={active?.id ?? 'me'}
-            compact={compact}
-            action={<Fab />}
-            onChange={(id) => {
-              setCompact(false);
-              navigate(TABS.find((t) => t.id === id)?.path ?? '/');
-            }}
-          />
-        )}
+        <PdfProvider settings={settings}>
+          <Switch>
+            <Route path="/">
+              <MySchedule settings={settings} />
+            </Route>
+            <Route path="/team">
+              <TeamScreen settings={settings} />
+            </Route>
+            <Route path="/calendar">
+              <CalendarView settings={settings} />
+            </Route>
+            <Route path="/settings">
+              <SettingsHome settings={settings} />
+            </Route>
+            <Route path="/settings/people">
+              <PeopleScreen />
+            </Route>
+            <Route path="/settings/hours">
+              <HoursScreen />
+            </Route>
+            <Route path="/settings/ai">
+              <AiSettings />
+            </Route>
+            <Route path="/settings/imports">
+              <ImportHistory />
+            </Route>
+            <Route>
+              <Placeholder title="Nie znaleziono" text="Ta strona nie istnieje." />
+            </Route>
+          </Switch>
+          {!isSub && (
+            <TabBar
+              tabs={TABS}
+              active={active?.id ?? 'me'}
+              compact={compact}
+              action={<Fab />}
+              onChange={(id) => {
+                setCompact(false);
+                navigate(TABS.find((t) => t.id === id)?.path ?? '/');
+              }}
+            />
+          )}
+        </PdfProvider>
       </ScanProvider>
     </ShiftEditorProvider>
   );

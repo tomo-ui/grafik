@@ -1,8 +1,20 @@
 import { defineConfig, devices } from '@playwright/test';
 
+/** testy aplikacji uruchamiane na profilach iPhone 12 (WebKit) i Pixel 7 (Chromium) */
+const APP_SPECS = [
+  'shell.spec.ts',
+  'app.spec.ts',
+  'shifts.spec.ts',
+  'views.spec.ts',
+  'scan.spec.ts',
+  'pdf.spec.ts',
+];
+
 export default defineConfig({
   testDir: 'tests/e2e',
   forbidOnly: true,
+  // pełny zestaw (WebKit + Chromium, 2 serwery) mocno obciąża maszynę — domyślne 5 s bywa za mało
+  expect: { timeout: 10_000 },
   reporter: 'list',
   webServer: [
     {
@@ -21,24 +33,12 @@ export default defineConfig({
   projects: [
     {
       name: 'iphone-12',
-      testMatch: [
-        'shell.spec.ts',
-        'app.spec.ts',
-        'shifts.spec.ts',
-        'views.spec.ts',
-        'scan.spec.ts',
-      ],
+      testMatch: APP_SPECS,
       use: { ...devices['iPhone 12'], baseURL: 'http://localhost:4173' },
     },
     {
       name: 'pixel-7',
-      testMatch: [
-        'shell.spec.ts',
-        'app.spec.ts',
-        'shifts.spec.ts',
-        'views.spec.ts',
-        'scan.spec.ts',
-      ],
+      testMatch: APP_SPECS,
       use: { ...devices['Pixel 7'], baseURL: 'http://localhost:4173' },
     },
     {

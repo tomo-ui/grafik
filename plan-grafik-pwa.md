@@ -711,9 +711,9 @@ grafik-pwa/
 
 ### Faza 8 — PDF
 
-- [ ] Sheet opcji, dwa układy, podział na strony, legenda, sumy.
-- [ ] Polskie znaki, tryb czarno-biały.
-- [ ] Web Share API z plikiem + fallback pobierania.
+- [x] Sheet opcji, dwa układy, podział na strony, legenda, sumy.
+- [x] Polskie znaki, tryb czarno-biały.
+- [x] Web Share API z plikiem + fallback pobierania.
 - **Akceptacja:** PDF miesiąca dla 10 osób czytelny po wydruku A4; udostępnianie otwiera natywny arkusz na iOS i Androidzie.
 
 ### Faza 9 — Dopracowanie

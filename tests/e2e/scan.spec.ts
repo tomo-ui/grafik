@@ -450,6 +450,7 @@ test.describe('skanowanie AI', () => {
     await page.getByRole('button', { name: 'Ustawienia' }).click();
     await page.getByRole('button', { name: /Osoby/ }).click();
     await page.getByRole('button', { name: 'Dodaj osobę' }).click();
+    await expect(page.getByRole('dialog', { name: 'Nowa osoba' })).toBeVisible();
     await fire('input[type=text]');
     await expect(sheet(page)).toHaveCount(0);
     await page.getByTestId('sheet-scrim').click({ position: { x: 10, y: 10 } });
