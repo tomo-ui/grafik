@@ -1,0 +1,83 @@
+{
+  "period": {
+    "month": 11,
+    "year": 2026,
+    "startDate": null,
+    "endDate": null
+  },
+  "legend": [
+    {
+      "symbol": "✓",
+      "meaning": "work",
+      "start": null,
+      "end": null
+    }
+  ],
+  "people": [
+    {
+      "nameAsWritten": "Anna K.",
+      "entries": [
+        {
+          "date": "2026-11-02",
+          "weekday": "Pn",
+          "rawCell": "✓",
+          "kind": "work",
+          "start": null,
+          "end": null,
+          "confidence": 0.95
+        },
+        {
+          "date": "2026-11-03",
+          "weekday": "Wt",
+          "rawCell": "✓",
+          "kind": "work",
+          "start": null,
+          "end": null,
+          "confidence": 0.95
+        },
+        {
+          "date": "2026-11-04",
+          "weekday": "Śr",
+          "rawCell": "✓",
+          "kind": "work",
+          "start": null,
+          "end": null,
+          "confidence": 0.95
+        }
+      ]
+    },
+    {
+      "nameAsWritten": "Jan",
+      "entries": [
+        {
+          "date": "2026-11-03",
+          "weekday": "Wt",
+          "rawCell": "✓",
+          "kind": "work",
+          "start": null,
+          "end": null,
+          "confidence": 0.95
+        },
+        {
+          "date": "2026-11-04",
+          "weekday": "Śr",
+          "rawCell": "✓",
+          "kind": "work",
+          "start": null,
+          "end": null,
+          "confidence": 0.95
+        },
+        {
+          "date": "2026-11-05",
+          "weekday": "Cz",
+          "rawCell": "✓",
+          "kind": "work",
+          "start": null,
+          "end": null,
+          "confidence": 0.95
+        }
+      ]
+    }
+  ],
+  "warnings": ["Wykryto układ transponowany: osoby w kolumnach, dni w wierszach."]
+}

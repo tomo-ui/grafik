@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { ChevronLeft } from 'lucide-react';
 import { useLocation } from 'wouter';
-import { Alert, Button, GroupedList, Screen, useToast } from '../../ui';
+import { Alert, Button, GroupedList, Screen, runWhenSettled, useToast } from '../../ui';
 import { repos } from '../../db/repos';
 import { useSettings } from '../../app/data';
 import { todayISO } from '../../domain/dates';
@@ -34,7 +34,7 @@ function HoursForm({ settings }: { settings: Settings }) {
       if (count > 0) setPending({ count, hours: draft });
       else {
         toast('Zapisano godziny domyślne');
-        navigate('/settings');
+        runWhenSettled(() => navigate('/settings'));
       }
     } catch {
       setError('Nie udało się zapisać godzin. Spróbuj ponownie.');
@@ -46,7 +46,7 @@ function HoursForm({ settings }: { settings: Settings }) {
 
   const finish = (updated: number) => {
     toast(updated > 0 ? `Zaktualizowano ${plural(updated, SHIFTS)}` : 'Zapisano godziny domyślne');
-    navigate('/settings');
+    runWhenSettled(() => navigate('/settings'));
   };
 
   return (

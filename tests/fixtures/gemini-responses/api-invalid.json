@@ -1,0 +1,20 @@
+{
+  "candidates": [
+    {
+      "content": {
+        "role": "model",
+        "parts": [
+          {
+            "text": "{\"period\":{\"month\":11,\"year\":2026,\"startDate\":null,\"endDate\":null},\"legend\":[],\"people\":[{\"nameAsWritten\":\"Kasia\",\"entries\":[{\"date\":\"2026-11-02\",\"weekday\":\"Pn\",\"rawCell\":\"X\",\"kind\":\"work\",\"start\":null,\"end\":null,\"confidence\":0.95},{\"date\":\"2026-11-03\",\"weekday\":\"Wt\",\"rawCell\":\"X\",\"kind\":\"work\",\"start\":null,\"end\":null,\"confidence\":0.95},{\"date\":\"2026-11-31\",\"weekday\":null,\"rawCell\":\"X\",\"kind\":\"work\",\"start\":null,\"end\":null,\"confidence\":0.95},{\"date\":\"2027-01-12\",\"weekday\":null,\"rawCell\":\"X\",\"kind\":\"work\",\"start\":null,\"end\":null,\"confidence\":0.95}]}],\"warnings\":[]}"
+          }
+        ]
+      },
+      "finishReason": "STOP"
+    }
+  ],
+  "usageMetadata": {
+    "promptTokenCount": 1200,
+    "candidatesTokenCount": 400,
+    "totalTokenCount": 1600
+  }
+}

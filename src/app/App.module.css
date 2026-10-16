@@ -5,7 +5,7 @@
 }
 .banner {
   position: fixed;
-  z-index: 300;
+  z-index: 350;
   left: calc(var(--sal) + 1rem);
   right: calc(var(--sar) + 1rem);
   bottom: calc(var(--sab) + 90px);

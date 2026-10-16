@@ -1,0 +1,20 @@
+{
+  "candidates": [
+    {
+      "content": {
+        "role": "model",
+        "parts": [
+          {
+            "text": "{\"period\":{\"month\":11,\"year\":2026,\"startDate\":null,\"endDate\":null},\"legend\":[],\"people\":[{\"nameAsWritten\":\"Kasia\",\"entries\":[{\"date\":\"2026-11-02\",\"weekday\":\"Pn\",\"rawCell\":\"10-18\",\"kind\":\"work\",\"start\":\"10:00\",\"end\":\"18:00\",\"confidence\":0.95},{\"date\":\"2026-11-03\",\"weekday\":\"Wt\",\"rawCell\":\"14:00–23\",\"kind\":\"work\",\"start\":null,\"end\":null,\"confidence\":0.95},{\"date\":\"2026-11-04\",\"weekday\":\"Śr\",\"rawCell\":\"10.30-16\",\"kind\":\"work\",\"start\":null,\"end\":null,\"confidence\":0.95},{\"date\":\"2026-11-05\",\"weekday\":\"Cz\",\"rawCell\":\"22-10\",\"kind\":\"work\",\"start\":null,\"end\":null,\"confidence\":0.95},{\"date\":\"2026-11-06\",\"weekday\":\"Pt\",\"rawCell\":\"10:00–23:00\",\"kind\":\"work\",\"start\":\"10:00\",\"end\":\"23:00\",\"confidence\":0.95}]}],\"warnings\":[]}"
+          }
+        ]
+      },
+      "finishReason": "STOP"
+    }
+  ],
+  "usageMetadata": {
+    "promptTokenCount": 1200,
+    "candidatesTokenCount": 400,
+    "totalTokenCount": 1600
+  }
+}

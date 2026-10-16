@@ -1,0 +1,151 @@
+{
+  "period": {
+    "month": 11,
+    "year": 2026,
+    "startDate": null,
+    "endDate": null
+  },
+  "legend": [
+    {
+      "symbol": "X",
+      "meaning": "work",
+      "start": null,
+      "end": null
+    }
+  ],
+  "people": [
+    {
+      "nameAsWritten": "Kasia",
+      "entries": [
+        {
+          "date": "2026-11-02",
+          "weekday": "Pn",
+          "rawCell": "X",
+          "kind": "work",
+          "start": null,
+          "end": null,
+          "confidence": 0.95
+        },
+        {
+          "date": "2026-11-03",
+          "weekday": "Wt",
+          "rawCell": "X",
+          "kind": "work",
+          "start": null,
+          "end": null,
+          "confidence": 0.95
+        },
+        {
+          "date": "2026-11-04",
+          "weekday": "Śr",
+          "rawCell": "X",
+          "kind": "work",
+          "start": null,
+          "end": null,
+          "confidence": 0.95
+        },
+        {
+          "date": "2026-11-05",
+          "weekday": "Cz",
+          "rawCell": "X",
+          "kind": "work",
+          "start": null,
+          "end": null,
+          "confidence": 0.95
+        },
+        {
+          "date": "2026-11-06",
+          "weekday": "Pt",
+          "rawCell": "X",
+          "kind": "work",
+          "start": null,
+          "end": null,
+          "confidence": 0.95
+        }
+      ]
+    },
+    {
+      "nameAsWritten": "Basia",
+      "entries": [
+        {
+          "date": "2026-11-02",
+          "weekday": "Pn",
+          "rawCell": "X",
+          "kind": "work",
+          "start": null,
+          "end": null,
+          "confidence": 0.95
+        },
+        {
+          "date": "2026-11-03",
+          "weekday": "Wt",
+          "rawCell": "X",
+          "kind": "work",
+          "start": null,
+          "end": null,
+          "confidence": 0.95
+        },
+        {
+          "date": "2026-11-07",
+          "weekday": "Sb",
+          "rawCell": "X",
+          "kind": "work",
+          "start": null,
+          "end": null,
+          "confidence": 0.95
+        },
+        {
+          "date": "2026-11-08",
+          "weekday": "Nd",
+          "rawCell": "X",
+          "kind": "work",
+          "start": null,
+          "end": null,
+          "confidence": 0.95
+        }
+      ]
+    },
+    {
+      "nameAsWritten": "Łukasz",
+      "entries": [
+        {
+          "date": "2026-11-04",
+          "weekday": "Śr",
+          "rawCell": "X",
+          "kind": "work",
+          "start": null,
+          "end": null,
+          "confidence": 0.95
+        },
+        {
+          "date": "2026-11-05",
+          "weekday": "Cz",
+          "rawCell": "X",
+          "kind": "work",
+          "start": null,
+          "end": null,
+          "confidence": 0.95
+        },
+        {
+          "date": "2026-11-06",
+          "weekday": "Pt",
+          "rawCell": "X",
+          "kind": "work",
+          "start": null,
+          "end": null,
+          "confidence": 0.95
+        },
+        {
+          "date": "2026-11-09",
+          "weekday": "Pn",
+          "rawCell": "W",
+          "kind": "off",
+          "start": null,
+          "end": null,
+          "confidence": 0.95
+        }
+      ]
+    }
+  ],
+  "warnings": []
+}

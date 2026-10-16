@@ -30,7 +30,7 @@ if (typeof window !== 'undefined') {
  * zamyka go zamiast opuszczać aplikację. Jeden globalny listener + stos nakładek;
  * pushState czeka, aż skończą się nasze własne history.back() (brak wyścigów).
  */
-export function useBackClose(open: boolean, onClose: () => void) {
+export function useBackClose(open: boolean, onClose: () => void, resetKey?: unknown) {
   const closeRef = useRef(onClose);
   useEffect(() => {
     closeRef.current = onClose;
@@ -61,7 +61,8 @@ export function useBackClose(open: boolean, onClose: () => void) {
         window.history.back();
       }
     };
-  }, [open]);
+    // resetKey pozwala ponownie zarejestrować wpis historii (np. po anulowaniu pytania „Odrzucić?”)
+  }, [open, resetKey]);
 }
 
 /** P-05: wysokość klawiatury ekranowej (iOS nie zmniejsza layout viewportu). */
@@ -95,3 +96,23 @@ export function haptic(ms = 10) {
 
 export const SPRING_BUTTON = { type: 'spring', stiffness: 400, damping: 32 } as const;
 export const SPRING_SHEET = { type: 'spring', stiffness: 300, damping: 30 } as const;
+
+/**
+ * Wykonuje `fn` dopiero, gdy zamykane nakładki (sheet/alert/menu) oddały swoje wpisy historii.
+ * Bez tego `navigate()` tuż po zamknięciu nakładki jest cofany przez asynchroniczne
+ * `history.back()` z jej sprzątania (P-15) i użytkownik ląduje na poprzednim ekranie.
+ */
+export function runWhenSettled(fn: () => void, tries = 20) {
+  const check = (n: number) => {
+    if (pendingBacks > 0) {
+      waiters.push(fn);
+      return;
+    }
+    if (overlayStack.length > 0 && n > 0) {
+      setTimeout(() => check(n - 1), 30);
+      return;
+    }
+    fn();
+  };
+  setTimeout(() => check(tries), 0);
+}

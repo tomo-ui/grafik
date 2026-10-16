@@ -2,7 +2,15 @@ import { db, uuid, type GrafikDB } from './db';
 import { DEFAULT_HOURS } from '../domain/hours';
 import { slotKey } from '../domain/conflicts';
 import { shiftsUsingDefaults, withDefaultHours } from '../domain/hours';
-import type { DefaultHours, ISODate, Person, Settings, Shift } from '../domain/types';
+import type {
+  DefaultHours,
+  ImportBatch,
+  ISODate,
+  Person,
+  ScanDraft,
+  Settings,
+  Shift,
+} from '../domain/types';
 
 export const DEFAULT_MODEL = 'gemini-flash-latest';
 const PURGE_AFTER_MS = 30 * 24 * 3600 * 1000;
@@ -249,7 +257,114 @@ export function createRepos(d: GrafikDB = db) {
     },
   };
 
-  return { settings, persons, shifts };
+  /* ---------------- Import AI: partie, wycofanie, szkic ---------------- */
+  const imports = {
+    list(): Promise<ImportBatch[]> {
+      return d.importBatches.orderBy('createdAt').reverse().toArray();
+    },
+    /**
+     * Zapis importu w jednej transakcji: nowe osoby, aliasy, zmiany (z polityką dla kolizji)
+     * i rekord ImportBatch z kopiami zastąpionych zmian (pełne wycofanie).
+     */
+    async apply(input: {
+      batch: Omit<ImportBatch, 'shiftIds' | 'replacedShifts'>;
+      newPersons: Person[];
+      aliasUpdates: { personId: string; alias: string }[];
+      shifts: Shift[];
+      choose: (incoming: Shift, existing: Shift) => 'replace' | 'skip';
+    }): Promise<{ batch: ImportBatch; added: number; replaced: number; skipped: number }> {
+      return d.transaction('rw', d.persons, d.shifts, d.importBatches, async () => {
+        if (input.newPersons.length) await d.persons.bulkAdd(input.newPersons);
+        for (const u of input.aliasUpdates) {
+          const p = await d.persons.get(u.personId);
+          if (p && !p.aliases.includes(u.alias)) {
+            await d.persons.update(u.personId, { aliases: [...p.aliases, u.alias] });
+          }
+        }
+        const dates = input.shifts.map((s) => s.date).sort();
+        const existing = dates.length
+          ? await d.shifts
+              .where('date')
+              .between(dates[0]!, dates[dates.length - 1]!, true, true)
+              .filter((s) => !s.deletedAt)
+              .toArray()
+          : [];
+        const bySlot = new Map(existing.map((s) => [slotKey(s), s]));
+        const added: Shift[] = [];
+        const replacedShifts: Shift[] = [];
+        let skipped = 0;
+        const now = Date.now();
+        for (const s of input.shifts) {
+          const hit = bySlot.get(slotKey(s));
+          if (hit) {
+            if (input.choose(s, hit) === 'skip') {
+              skipped++;
+              continue;
+            }
+            replacedShifts.push({ ...hit });
+            await d.shifts.update(hit.id, { deletedAt: now });
+          }
+          await d.shifts.add(s);
+          bySlot.set(slotKey(s), s);
+          added.push(s);
+        }
+        const batch: ImportBatch = {
+          ...input.batch,
+          shiftIds: added.map((s) => s.id),
+          replacedShifts,
+        };
+        await d.importBatches.add(batch);
+        return { batch, added: added.length, replaced: replacedShifts.length, skipped };
+      });
+    },
+    /** Wycofanie importu: usuwa zaimportowane zmiany i przywraca zastąpione (o ile miejsce wolne). */
+    async revert(
+      batchId: string,
+    ): Promise<{ removed: number; restored: number; notRestored: number }> {
+      return d.transaction('rw', d.shifts, d.importBatches, async () => {
+        const batch = await d.importBatches.get(batchId);
+        if (!batch) throw new Error('Nie znaleziono importu.');
+        if (batch.revertedAt) return { removed: 0, restored: 0, notRestored: 0 };
+        const now = Date.now();
+        let removed = 0;
+        for (const id of batch.shiftIds) {
+          const s = await d.shifts.get(id);
+          if (s && !s.deletedAt) {
+            await d.shifts.update(id, { deletedAt: now });
+            removed++;
+          }
+        }
+        let restored = 0;
+        let notRestored = 0;
+        for (const old of batch.replacedShifts) {
+          const clash = await d.shifts
+            .where('[personId+date]')
+            .equals([old.personId, old.date])
+            .filter((x) => !x.deletedAt && x.id !== old.id)
+            .first();
+          if (clash) {
+            notRestored++;
+            continue;
+          }
+          await d.shifts.update(old.id, { deletedAt: undefined });
+          restored++;
+        }
+        await d.importBatches.update(batchId, { revertedAt: now });
+        return { removed, restored, notRestored };
+      });
+    },
+    getDraft(): Promise<ScanDraft | undefined> {
+      return d.scanDrafts.get('current');
+    },
+    saveDraft(draft: ScanDraft): Promise<unknown> {
+      return d.scanDrafts.put(draft);
+    },
+    clearDraft(): Promise<void> {
+      return d.scanDrafts.delete('current');
+    },
+  };
+
+  return { settings, persons, shifts, imports };
 }
 
 async function clearMe(d: GrafikDB) {

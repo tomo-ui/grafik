@@ -1,4 +1,4 @@
-import { Clock, Info, Users } from 'lucide-react';
+import { Clock, History, Info, ScanLine, Users } from 'lucide-react';
 import { useLocation } from 'wouter';
 import { GroupedList, ListRow, Screen, SegmentedControl } from '../../ui';
 import { repos } from '../../db/repos';
@@ -28,6 +28,23 @@ export function SettingsHome({ settings }: { settings: Settings }) {
           leading={<Clock size={22} color="var(--accent)" />}
           chevron
           onClick={() => navigate('/settings/hours')}
+          last
+        />
+      </GroupedList>
+
+      <GroupedList header="Skanowanie AI">
+        <ListRow
+          title="Skanowanie AI"
+          leading={<ScanLine size={22} color="var(--accent)" />}
+          value={settings.geminiApiKey ? 'Skonfigurowane' : 'Brak klucza'}
+          chevron
+          onClick={() => navigate('/settings/ai')}
+        />
+        <ListRow
+          title="Historia importów"
+          leading={<History size={22} color="var(--accent)" />}
+          chevron
+          onClick={() => navigate('/settings/imports')}
           last
         />
       </GroupedList>

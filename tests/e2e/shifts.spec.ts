@@ -50,7 +50,13 @@ async function addPerson(page: Page, name: string) {
   await page.getByRole('button', { name: 'Mój grafik' }).click();
 }
 
-const fab = (page: Page) => page.locator('button[aria-label="Dodaj zmianę"]');
+/** „+” → „Dodaj zmianę” (2 tapnięcia) */
+const fab = (page: Page) => ({
+  click: async () => {
+    await page.getByRole('button', { name: 'Dodaj', exact: true }).click();
+    await page.getByRole('menuitem', { name: 'Dodaj zmianę' }).click();
+  },
+});
 const addSheet = (page: Page) => page.getByRole('dialog', { name: 'Dodaj zmianę' });
 const day = (page: Page, label: string) => addSheet(page).getByRole('button', { name: label });
 const toast = (page: Page, text: string | RegExp) =>
@@ -71,12 +77,12 @@ test('akceptacja: 2 osoby × cały tydzień w ≤ 5 tapnięciach, Pt/Sb 10–23'
   await start(page, 'Ania');
   await addPerson(page, 'Basia');
 
-  await fab(page).click(); // tap 1
+  await fab(page).click(); // tapnięcia 1–2: „+” i „Dodaj zmianę”
   await expect(addSheet(page)).toBeVisible();
-  await addSheet(page).getByRole('button', { name: 'Basia' }).click(); // tap 2 (Ania jest domyślnie)
-  await addSheet(page).getByRole('button', { name: 'Cały tydzień' }).click(); // tap 3
+  await addSheet(page).getByRole('button', { name: 'Basia' }).click(); // tap 3 (Ania jest domyślnie)
+  await addSheet(page).getByRole('button', { name: 'Cały tydzień' }).click(); // tap 4
   await expect(addSheet(page).getByText('Dni · 7')).toBeVisible();
-  await addSheet(page).getByRole('button', { name: 'Dodaj 14 zmian' }).click(); // tap 4
+  await addSheet(page).getByRole('button', { name: 'Dodaj 14 zmian' }).click(); // tap 5 — razem 5
 
   await expect(toast(page, 'Dodano 14 zmian')).toBeVisible();
   const rows = await active(page);

@@ -698,15 +698,15 @@ grafik-pwa/
 
 ### Faza 7 — Skanowanie AI
 
-- [ ] Spike Gemini z prawdziwego iPhone’a i Androida (4.1) → `docs/spike-gemini.md`.
-- [ ] Ustawienia klucza + test połączenia + lista modeli.
-- [ ] Wybór/aparat, podgląd, obrót, kadr, wiele stron, kompresja.
-- [ ] **Wklejanie ze schowka**: przycisk `clipboard.read()` + pole „przytrzymaj i wklej” + `paste` globalnie (4.3a).
-- [ ] Szkic ekranu weryfikacji odtwarzany po ubiciu aplikacji (P-12).
-- [ ] Klient Gemini (schema, timeout, 429, retry, anuluj).
-- [ ] Normalizacja + dopasowanie osób + aliasy.
-- [ ] Ekran weryfikacji z konfliktami, niską pewnością, miniaturą zdjęcia.
-- [ ] ImportBatch + wycofanie importu.
+- [ ] (protokół i strona testowa gotowe w `docs/spike/`, **do wykonania na telefonach**) Spike Gemini z prawdziwego iPhone’a i Androida (4.1) → `docs/spike-gemini.md`.
+- [x] Ustawienia klucza + test połączenia + lista modeli.
+- [x] Wybór/aparat, podgląd, obrót, kadr, wiele stron, kompresja.
+- [x] **Wklejanie ze schowka**: przycisk `clipboard.read()` + pole „przytrzymaj i wklej” + `paste` globalnie (4.3a).
+- [x] Szkic ekranu weryfikacji odtwarzany po ubiciu aplikacji (P-12).
+- [x] Klient Gemini (schema, timeout, 429, retry, anuluj).
+- [x] Normalizacja + dopasowanie osób + aliasy.
+- [x] Ekran weryfikacji z konfliktami, niską pewnością, miniaturą zdjęcia.
+- [x] ImportBatch + wycofanie importu.
 - **Akceptacja:** na przykładowych zdjęciach z `tests/fixtures/photos` ≥ 95% komórek poprawnie po weryfikacji; każdy import da się cofnąć.
 
 ### Faza 8 — PDF

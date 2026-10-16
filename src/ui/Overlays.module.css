@@ -1,7 +1,8 @@
 .layer {
   position: fixed;
   inset: 0;
-  z-index: 100;
+  /* nad pełnoekranowym ekranem weryfikacji (z-index 150), pod toastem */
+  z-index: 200;
 }
 .center {
   display: flex;
@@ -184,7 +185,7 @@ button.asCancel {
 /* Toast */
 .toastWrap {
   position: fixed;
-  z-index: 200;
+  z-index: 400;
   left: calc(var(--sal) + 1rem);
   right: calc(var(--sar) + 1rem);
   bottom: calc(var(--sab) + 90px);
