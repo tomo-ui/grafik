@@ -258,6 +258,8 @@ async function seedWeek(page: Page) {
   await addSheet(page).getByRole('button', { name: 'Dodaj 5 zmian' }).click();
   await expect(toast(page, 'Dodano 5 zmian')).toBeVisible();
   await page.getByRole('button', { name: 'Zespół' }).click();
+  // te testy sprawdzają widok „Lista dni” (swipe, zaznaczanie); siatka ma osobne testy w views.spec.ts
+  await page.getByRole('button', { name: 'Przełącz na listę dni' }).click();
   await expect(page.getByRole('heading', { name: 'Zespół' })).toBeVisible();
 }
 
@@ -336,14 +338,17 @@ test('lista dni: tryb zaznaczania i usuwanie zbiorcze z Cofnij', async ({ page }
   await expect.poll(async () => (await active(page)).length).toBe(5);
 });
 
-test('lista dni: pusty stan i nawigacja po miesiącach', async ({ page }) => {
+test('lista dni: pusty stan i nawigacja po okresach', async ({ page }) => {
   await start(page);
   await page.getByRole('button', { name: 'Zespół' }).click();
-  await expect(page.getByText('Brak zmian w tym miesiącu.')).toBeVisible();
+  await page.getByRole('button', { name: 'Przełącz na listę dni' }).click();
+  await expect(page.getByText('Brak zmian w tym okresie.')).toBeVisible();
+  await page.getByRole('radio', { name: 'Miesiąc' }).click();
+  await expect(page.getByTestId('period-label')).toHaveText('listopad 2026');
   await page.getByRole('button', { name: 'Następny miesiąc' }).click();
-  await expect(page.getByText('grudzień 2026')).toBeVisible();
-  await page.getByRole('button', { name: /wróć do bieżącego/ }).click();
-  await expect(page.getByText('listopad 2026')).toBeVisible();
+  await expect(page.getByTestId('period-label')).toHaveText('grudzień 2026');
+  await page.getByRole('button', { name: 'Dziś' }).click();
+  await expect(page.getByTestId('period-label')).toHaveText('listopad 2026');
   await page.getByText('Dodaj zmianę', { exact: true }).click();
   await expect(addSheet(page)).toBeVisible();
   await expect(day(page, 'środa, 4 listopada')).toHaveAttribute('aria-pressed', 'true');
@@ -402,6 +407,7 @@ for (const scheme of ['light', 'dark'] as const) {
     await addSheet(page).getByRole('button', { name: 'Dodaj 5 zmian' }).click();
     await expect(toast(page, 'Dodano 5 zmian')).toBeVisible();
     await page.getByRole('button', { name: 'Zespół' }).click();
+    await page.getByRole('button', { name: 'Przełącz na listę dni' }).click();
     await page.waitForTimeout(400);
     await shot('2-lista-dni');
     await page.getByRole('button', { name: 'Wybierz' }).click();

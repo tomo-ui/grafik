@@ -1,0 +1,113 @@
+.note {
+  margin: 0;
+  padding: 1rem calc(var(--sar) + 1.25rem) 0 calc(var(--sal) + 1.25rem);
+  color: var(--label-secondary);
+}
+.empty {
+  padding: 2rem 1.5rem;
+  text-align: center;
+  color: var(--label-secondary);
+  display: grid;
+  gap: 1rem;
+  justify-items: center;
+}
+
+.cardWrap {
+  position: relative;
+  margin: 0 calc(var(--sar) + 1rem) 1rem calc(var(--sal) + 1rem);
+}
+/* kolorowa plama pod szkłem — widać, że karta to „Liquid Glass” */
+.blob {
+  position: absolute;
+  top: -10px;
+  right: 8%;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  opacity: 0.55;
+  filter: blur(18px);
+}
+.card {
+  position: relative;
+  border-radius: 28px;
+  padding: 1.25rem 1.25rem 1.25rem;
+}
+.cardKicker {
+  margin: 0 0 0.25rem;
+  font-size: var(--fs-footnote);
+  text-transform: uppercase;
+  color: var(--label-secondary);
+}
+.cardDay {
+  margin: 0;
+  font-size: var(--fs-title2);
+  font-weight: 700;
+}
+.cardDay::first-letter {
+  text-transform: uppercase;
+}
+.cardTime {
+  margin: 0.125rem 0 0;
+  font-size: 1.75rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.cardRel {
+  margin: 0.125rem 0 0;
+  color: var(--accent);
+  font-weight: 600;
+}
+.cardAction {
+  margin-top: 0.75rem;
+}
+.mates {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 0.75rem;
+}
+.mate {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  color: #fff;
+  font-size: var(--fs-footnote);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.mateNote {
+  font-size: var(--fs-footnote);
+  color: var(--label-secondary);
+  margin-left: 4px;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin: 0 calc(var(--sar) + 1rem) 1.5rem calc(var(--sal) + 1rem);
+}
+.stat {
+  background: var(--bg-secondary);
+  border-radius: 20px;
+  padding: 0.75rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-width: 0;
+}
+.statNum {
+  font-size: 1.25rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.statLabel {
+  font-size: var(--fs-caption);
+  color: var(--label-secondary);
+  text-align: center;
+}

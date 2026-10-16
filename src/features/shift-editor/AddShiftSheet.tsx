@@ -37,6 +37,8 @@ const LAST_KEY = 'grafik:last-persons';
 export interface AddPrefill {
   personIds?: string[];
   dates?: ISODate[];
+  /** „Duplikuj na…”: typ, godziny i notatka kopiowane z istniejącej zmiany */
+  template?: Pick<Shift, 'kind' | 'start' | 'end' | 'usesDefaultHours' | 'note'>;
 }
 
 const KIND_OPTIONS: { value: ShiftKind; label: string }[] = [
@@ -61,14 +63,15 @@ function initialForm(persons: Person[], prefill?: AddPrefill): ShiftFormInput {
   if (draft) return { ...draft, personIds: draft.personIds.filter((id) => valid.has(id)) };
   const last = lastUsedPersons(valid);
   const me = persons.find((p) => p.isMe)?.id;
+  const t = prefill?.template;
   return {
     personIds: prefill?.personIds ?? (last.length ? last : me ? [me] : []),
     dates: prefill?.dates ?? [],
-    kind: 'work',
-    useDefault: true,
-    start: '10:00',
-    end: '22:00',
-    note: '',
+    kind: t?.kind ?? 'work',
+    useDefault: t ? t.kind !== 'work' || t.usesDefaultHours : true,
+    start: t?.start ?? '10:00',
+    end: t?.end ?? '22:00',
+    note: t?.note ?? '',
   };
 }
 

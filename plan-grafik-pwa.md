@@ -691,9 +691,9 @@ grafik-pwa/
 
 ### Faza 6 — Widoki
 
-- [ ] Zespół: siatka tydzień/miesiąc, sticky kolumna i nagłówek, sumy, obsada, filtry, widok listy dni.
-- [ ] Mój grafik: najbliższa zmiana, podsumowanie, lista.
-- [ ] Kalendarz miesięczny z kropkami.
+- [x] Zespół: siatka tydzień/miesiąc, sticky kolumna i nagłówek, sumy, obsada, filtry, widok listy dni.
+- [x] Mój grafik: najbliższa zmiana, podsumowanie, lista.
+- [x] Kalendarz miesięczny z kropkami.
 - **Akceptacja:** tydzień 8 osób czytelny na iPhone 12 (390 pt) bez przewijania w poziomie.
 
 ### Faza 7 — Skanowanie AI

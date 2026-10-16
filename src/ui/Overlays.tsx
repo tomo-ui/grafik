@@ -155,7 +155,16 @@ function MenuPopover({
 }
 
 /** Long-press 450 ms (P-06: bez systemowego menu/zaznaczenia). */
-export function ContextMenu({ items, children }: { items: MenuItem[]; children: ReactNode }) {
+export function ContextMenu({
+  items,
+  children,
+  display,
+}: {
+  items: MenuItem[];
+  children: ReactNode;
+  /** np. 'contents', gdy opakowanie nie może zaburzać układu siatki */
+  display?: 'contents';
+}) {
   const [anchor, setAnchor] = useState<{ x: number; y: number } | null>(null);
   const timer = useRef<number | undefined>(undefined);
   const start = useRef({ x: 0, y: 0 });
@@ -167,6 +176,7 @@ export function ContextMenu({ items, children }: { items: MenuItem[]; children: 
   return (
     <div
       className={styles.longPress}
+      style={display ? { display } : undefined}
       onContextMenu={(e) => e.preventDefault()}
       onPointerDown={(e) => {
         start.current = { x: e.clientX, y: e.clientY };

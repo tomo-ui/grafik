@@ -5,7 +5,9 @@ import { Route, Switch, useLocation } from 'wouter';
 import { Plus } from 'lucide-react';
 import { Screen, TabBar, ToastProvider, type Tab } from '../ui';
 import { ShiftEditorProvider, useShiftEditor } from '../features/shift-editor/ShiftEditorContext';
-import { DayList } from '../features/team/DayList';
+import { TeamScreen } from '../features/team/TeamScreen';
+import { MySchedule } from '../features/my-schedule/MySchedule';
+import { CalendarView } from '../features/calendar/CalendarView';
 import { Onboarding } from '../features/onboarding/Onboarding';
 import { SettingsHome } from '../features/settings/SettingsHome';
 import { PeopleScreen } from '../features/settings/PeopleScreen';
@@ -76,13 +78,13 @@ function Shell() {
     <ShiftEditorProvider settings={settings}>
       <Switch>
         <Route path="/">
-          <Placeholder title="Mój grafik" text="Tu pojawią się Twoje najbliższe zmiany." />
+          <MySchedule settings={settings} />
         </Route>
         <Route path="/team">
-          <DayList />
+          <TeamScreen settings={settings} />
         </Route>
         <Route path="/calendar">
-          <Placeholder title="Kalendarz" text="Tu pojawi się kalendarz miesięczny." />
+          <CalendarView settings={settings} />
         </Route>
         <Route path="/settings">
           <SettingsHome settings={settings} />
