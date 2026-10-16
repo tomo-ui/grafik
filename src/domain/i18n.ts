@@ -27,3 +27,15 @@ export const PEOPLE = { one: 'osoba', few: 'osoby', many: 'osób' } as const;
 export function formatHours(minutes: number): string {
   return `${numberFmt.format(minutes / 60)} h`;
 }
+
+/** Indeks = Weekday (0 = niedziela). */
+export const DAY_NAMES = [
+  'Niedziela',
+  'Poniedziałek',
+  'Wtorek',
+  'Środa',
+  'Czwartek',
+  'Piątek',
+  'Sobota',
+] as const;
+export const DAY_SHORT = ['Nd', 'Pn', 'Wt', 'Śr', 'Cz', 'Pt', 'Sb'] as const;

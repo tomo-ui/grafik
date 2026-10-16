@@ -1,15 +1,7 @@
-.shell {
-  padding: calc(var(--sat) + 1rem) calc(var(--sar) + 1rem) calc(var(--sab) + 1rem)
-    calc(var(--sal) + 1rem);
-}
-.title {
-  font-size: var(--fs-large-title);
-  font-weight: 700;
-  margin: 0 0 0.5rem;
-}
-.field {
-  display: grid;
-  gap: 0.25rem;
+.placeholder {
+  margin: 0;
+  padding: 1rem calc(var(--sar) + 1.25rem) 0 calc(var(--sal) + 1.25rem);
+  color: var(--label-secondary);
 }
 .banner {
   position: fixed;

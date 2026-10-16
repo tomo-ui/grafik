@@ -9,11 +9,13 @@ import styles from './Navigation.module.css';
  */
 export function Screen({
   title,
+  leading,
   trailing,
   children,
   onScrollDirection,
 }: {
   title: string;
+  leading?: ReactNode;
   trailing?: ReactNode;
   children: ReactNode;
   /** dla TabBar: zmniejszanie przy przewijaniu w dół */
@@ -54,7 +56,7 @@ export function Screen({
   return (
     <div className={styles.screen}>
       <header className={`${styles.bar} ${collapsed ? `${styles.barCollapsed} glass` : ''}`}>
-        <span className={styles.barSide} />
+        <span className={styles.barSide}>{leading}</span>
         <motion.span
           className={styles.smallTitle}
           initial={false}

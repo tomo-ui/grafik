@@ -1,7 +1,8 @@
 import { db, uuid, type GrafikDB } from './db';
 import { DEFAULT_HOURS } from '../domain/hours';
 import { slotKey } from '../domain/conflicts';
-import type { Person, Settings, Shift } from '../domain/types';
+import { shiftsUsingDefaults, withDefaultHours } from '../domain/hours';
+import type { DefaultHours, ISODate, Person, Settings, Shift } from '../domain/types';
 
 export const DEFAULT_MODEL = 'gemini-flash-latest';
 const PURGE_AFTER_MS = 30 * 24 * 3600 * 1000;
@@ -24,10 +25,13 @@ export function createRepos(d: GrafikDB = db) {
       // dołóż brakujące pola po przyszłych migracjach
       return { ...defaultSettings(), ...s };
     },
+    // odczyt+zapis w jednej transakcji: dwie szybkie zmiany nie nadpisują się nawzajem
     async update(patch: Partial<Omit<Settings, 'id'>>): Promise<Settings> {
-      const next = { ...(await settings.get()), ...patch, id: 'app' as const };
-      await d.settings.put(next);
-      return next;
+      return d.transaction('rw', d.settings, async () => {
+        const next = { ...(await settings.get()), ...patch, id: 'app' as const };
+        await d.settings.put(next);
+        return next;
+      });
     },
   };
 
@@ -202,6 +206,22 @@ export function createRepos(d: GrafikDB = db) {
           if (clash) throw new Error(`Nie można cofnąć: w dniu ${s.date} jest już inna zmiana.`);
           await d.shifts.update(id, { deletedAt: undefined });
         }
+      });
+    },
+    /** Przyszłe zmiany z flagą „domyślne” (do pytania po zmianie ustawień). */
+    async futureUsingDefaults(fromDate: ISODate): Promise<Shift[]> {
+      const all = await d.shifts.where('date').aboveOrEqual(fromDate).toArray();
+      return shiftsUsingDefaults(all, fromDate);
+    },
+    /** Nadpisuje godziny przyszłych zmian z flagą „domyślne” nowymi godzinami domyślnymi. */
+    async applyDefaultHours(fromDate: ISODate, defaults: DefaultHours): Promise<number> {
+      return d.transaction('rw', d.shifts, async () => {
+        const list = await shifts.futureUsingDefaults(fromDate);
+        const now = Date.now();
+        await d.shifts.bulkPut(
+          list.map((s) => ({ ...withDefaultHours(s, defaults), updatedAt: now })),
+        );
+        return list.length;
       });
     },
     /** Fizyczne usunięcie rekordów soft-deleted starszych niż 30 dni (przy starcie). */

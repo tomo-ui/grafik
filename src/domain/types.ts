@@ -62,4 +62,6 @@ export interface Settings {
   geminiModel: string;
   aiPrivacyAcknowledged: boolean;
   theme: 'system' | 'light' | 'dark';
+  /** lokalna flaga onboardingu — nie trafia do kopii zapasowej */
+  onboardingDone?: boolean;
 }

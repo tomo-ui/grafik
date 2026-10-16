@@ -102,3 +102,40 @@
   position: relative;
   background: var(--bg-secondary);
 }
+
+.rowLast::after {
+  display: none;
+}
+
+/* Wiersz z polem tekstowym */
+.inputRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 52px;
+  padding: 0 1rem;
+  background: var(--bg-secondary);
+  position: relative;
+}
+.inputRow input {
+  flex: 1;
+  min-width: 0;
+  text-align: right;
+  border: 0;
+  background: none;
+  color: inherit;
+  min-height: var(--touch);
+}
+.inputRow input::placeholder {
+  color: var(--label-tertiary);
+}
+.inputRow:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: 1rem;
+  right: 0;
+  bottom: 0;
+  height: 0.5px;
+  background: var(--separator);
+}

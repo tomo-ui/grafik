@@ -29,6 +29,7 @@ export function ListRow({
   leading,
   trailing,
   chevron = false,
+  last = false,
   onClick,
 }: {
   title: ReactNode;
@@ -37,6 +38,8 @@ export function ListRow({
   leading?: ReactNode;
   trailing?: ReactNode;
   chevron?: boolean;
+  /** ostatni wiersz grupy (gdy wiersze są opakowane i CSS nie zgadnie sam) */
+  last?: boolean;
   onClick?: () => void;
 }) {
   const body = (
@@ -56,16 +59,57 @@ export function ListRow({
   return onClick ? (
     <button
       type="button"
-      className={`${styles.row} ${styles.rowButton}`}
+      className={`${styles.row} ${styles.rowButton} ${last ? styles.rowLast : ''}`}
       style={{ ['--inset' as string]: inset }}
       onClick={onClick}
     >
       {body}
     </button>
   ) : (
-    <div className={styles.row} style={{ ['--inset' as string]: inset }}>
+    <div
+      className={`${styles.row} ${last ? styles.rowLast : ''}`}
+      style={{ ['--inset' as string]: inset }}
+    >
       {body}
     </div>
+  );
+}
+
+/** Wiersz z etykietą i polem tekstowym (>= 16 px, P-13). */
+export function TextRow({
+  label,
+  value,
+  onChange,
+  placeholder,
+  autoCapitalize = 'words',
+  onEnter,
+  autoFocus = false,
+}: {
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+  placeholder?: string;
+  autoCapitalize?: 'words' | 'none' | 'sentences';
+  onEnter?: () => void;
+  autoFocus?: boolean;
+}) {
+  return (
+    <label className={styles.inputRow}>
+      <span>{label}</span>
+      <input
+        type="text"
+        value={value}
+        placeholder={placeholder}
+        autoCapitalize={autoCapitalize}
+        autoCorrect="off"
+        autoFocus={autoFocus}
+        enterKeyHint={onEnter ? 'done' : undefined}
+        onChange={(e) => onChange(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') onEnter?.();
+        }}
+      />
+    </label>
   );
 }
 

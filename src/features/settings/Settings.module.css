@@ -1,0 +1,170 @@
+/* Godziny domyślne */
+.hoursRow {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  min-height: 64px;
+  padding: 0.5rem 1rem;
+  background: var(--bg-secondary);
+  position: relative;
+}
+.hoursRow::after {
+  content: '';
+  position: absolute;
+  left: 1rem;
+  right: 0;
+  bottom: 0;
+  height: 0.5px;
+  background: var(--separator);
+}
+.hoursLast::after {
+  display: none;
+}
+.hoursDay {
+  flex: 1;
+  min-width: 0;
+  font-size: var(--fs-subhead);
+  display: flex;
+  flex-direction: column;
+}
+.hoursInfo {
+  font-size: var(--fs-footnote);
+  color: var(--label-secondary);
+}
+.hoursError {
+  font-size: var(--fs-footnote);
+  color: var(--red);
+}
+.timePill {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--touch);
+  padding: 0 0.25rem;
+  border-radius: 10px;
+  flex-shrink: 0;
+  background: var(--fill);
+}
+.timePill input {
+  border: 0;
+  background: none;
+  color: inherit;
+  min-height: var(--touch);
+  width: 4.5rem;
+  min-width: 0;
+  text-align: center;
+}
+
+/* Osoby */
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: var(--fs-subhead);
+  font-weight: 600;
+}
+.grip {
+  min-width: var(--touch);
+  min-height: var(--touch);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--label-tertiary);
+  touch-action: none;
+  cursor: grab;
+}
+.reorderItem {
+  list-style: none;
+  background: var(--bg-secondary);
+}
+.reorderGroup {
+  margin: 0;
+  padding: 0;
+}
+
+.colors {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 4px;
+  padding: 0.5rem 0.75rem;
+  background: var(--bg-secondary);
+}
+.colorBtn {
+  min-height: var(--touch);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.swatch {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+.swatchOn {
+  box-shadow:
+    0 0 0 2px var(--bg-secondary),
+    0 0 0 4px var(--label-secondary);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 0.75rem 1rem;
+  background: var(--bg-secondary);
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 36px;
+  padding: 0 0.5rem 0 0.75rem;
+  border-radius: 999px;
+  background: var(--fill);
+  font-size: var(--fs-subhead);
+}
+.chip button {
+  min-width: var(--touch);
+  min-height: var(--touch);
+  margin: -4px -8px -4px -4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--label-secondary);
+}
+
+.formActions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0 calc(var(--sar) + 1rem) 1rem calc(var(--sal) + 1rem);
+}
+.formActions > * {
+  width: 100%;
+}
+.note {
+  margin: 0;
+  padding: 0 calc(var(--sar) + 1.25rem) 1rem calc(var(--sal) + 1.25rem);
+  font-size: var(--fs-footnote);
+  color: var(--label-secondary);
+}
+.backBtn {
+  min-height: var(--touch);
+  padding: 0 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  color: var(--accent);
+}
+.empty {
+  padding: 2rem 1.5rem;
+  text-align: center;
+  color: var(--label-secondary);
+}

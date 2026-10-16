@@ -19,7 +19,7 @@
 }
 
 /* Sheet */
-.sheet {
+div.sheet {
   position: absolute;
   left: 0;
   right: 0;
@@ -29,7 +29,8 @@
   padding-bottom: var(--sab);
   transition: height 0.3s ease;
   /* sheet jest jedyną warstwą glass pod spodem treści — tło opaque dla czytelności */
-  background: color-mix(in srgb, var(--glass-tint) 95%, transparent);
+  background: var(--sheet-bg);
+  --bg-secondary: var(--sheet-card); /* karty w sheecie wyróżniają się od tła */
 }
 .grabberZone {
   display: flex;
@@ -90,7 +91,7 @@
 }
 
 /* Alert */
-.alert {
+div.alert {
   position: relative;
   width: min(270px, calc(100vw - 3rem));
   border-radius: 24px;
@@ -141,7 +142,7 @@
   flex-direction: column;
   gap: 8px;
 }
-.asGroup {
+div.asGroup {
   border-radius: 24px;
   overflow: hidden;
   background: color-mix(in srgb, var(--glass-tint) 90%, transparent);
@@ -171,7 +172,7 @@
 .asBtn:active {
   background: var(--fill);
 }
-.asCancel {
+button.asCancel {
   min-height: 56px;
   border-radius: 24px;
   color: var(--accent);
@@ -191,7 +192,7 @@
   justify-content: center;
   pointer-events: none;
 }
-.toast {
+div.toast {
   pointer-events: auto;
   display: flex;
   align-items: center;

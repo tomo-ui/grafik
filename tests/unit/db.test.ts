@@ -45,6 +45,18 @@ describe('ustawienia', () => {
   });
 });
 
+describe('ustawienia — współbieżność', () => {
+  it('dwie szybkie aktualizacje nie nadpisują się nawzajem', async () => {
+    await Promise.all([
+      repos.settings.update({ theme: 'dark' }),
+      repos.settings.update({ weekStartsOn: 0 }),
+    ]);
+    const s = await repos.settings.get();
+    expect(s.theme).toBe('dark');
+    expect(s.weekStartsOn).toBe(0);
+  });
+});
+
 describe('osoby', () => {
   it('kolejność rośnie, tylko jedna osoba jest „Ja”', async () => {
     const a = await person('Ania', { isMe: true });

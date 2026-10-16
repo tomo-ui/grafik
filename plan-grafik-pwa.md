@@ -678,9 +678,9 @@ grafik-pwa/
 
 ### Faza 4 — Osoby, onboarding, ustawienia
 
-- [ ] Onboarding 3 ekrany, osoba „Ja”.
-- [ ] CRUD osób z kolorami, aliasami, kolejnością.
-- [ ] Ustawienia godzin domyślnych, motyw, pierwszy dzień tygodnia.
+- [x] Onboarding 3 ekrany, osoba „Ja”.
+- [x] CRUD osób z kolorami, aliasami, kolejnością.
+- [x] Ustawienia godzin domyślnych, motyw, pierwszy dzień tygodnia.
 
 ### Faza 5 — Ręczne zarządzanie grafikiem
 

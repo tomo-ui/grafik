@@ -77,9 +77,15 @@ export async function exportBackup(d: GrafikDB = db, now = new Date()): Promise<
     d.shifts.filter((s) => !s.deletedAt).toArray(),
     d.settings.get('app'),
   ]);
-  const { id: _id, geminiApiKey: _key, ...settings } = { ...defaultSettings(), ...stored };
+  const {
+    id: _id,
+    geminiApiKey: _key,
+    onboardingDone: _ob,
+    ...settings
+  } = { ...defaultSettings(), ...stored };
   void _id;
   void _key;
+  void _ob;
   return {
     app: 'grafik',
     schemaVersion: BACKUP_SCHEMA_VERSION,
@@ -168,7 +174,12 @@ export async function importBackup(
         ]);
         await d.persons.bulkAdd(b.persons as Person[]);
         await d.shifts.bulkAdd(b.shifts as Shift[]);
-        const settings: Settings = { ...b.settings, id: 'app', geminiApiKey: keepKey };
+        const settings: Settings = {
+          ...b.settings,
+          id: 'app',
+          geminiApiKey: keepKey,
+          onboardingDone: true,
+        };
         await d.settings.put(settings);
         return { persons: b.persons.length, shifts: b.shifts.length, skipped };
       }

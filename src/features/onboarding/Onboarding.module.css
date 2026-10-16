@@ -1,0 +1,105 @@
+.page {
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  padding-top: var(--sat);
+}
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 calc(var(--sar) + 0.5rem) 0 calc(var(--sal) + 0.5rem);
+  min-height: 52px;
+}
+.back {
+  min-height: var(--touch);
+  display: flex;
+  align-items: center;
+  color: var(--accent);
+  padding: 0 0.5rem;
+}
+.topSpacer {
+  width: 80px;
+}
+.dots {
+  display: flex;
+  gap: 8px;
+}
+.dot,
+.dotOn {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--label-tertiary);
+}
+.dotOn {
+  background: var(--accent);
+}
+.body {
+  flex: 1;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 1rem 0 1rem;
+}
+.logo {
+  width: 84px;
+  height: 84px;
+  border-radius: 22px;
+  background: var(--accent);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1rem auto 1.5rem;
+}
+.title {
+  margin: 0 0 0.5rem;
+  padding: 0 calc(var(--sar) + 1.25rem) 0 calc(var(--sal) + 1.25rem);
+  font-size: var(--fs-large-title);
+  font-weight: 700;
+}
+.lead {
+  color: var(--label-secondary);
+  margin: 0 calc(var(--sar) + 1.25rem) 1.5rem calc(var(--sal) + 1.25rem);
+}
+.card {
+  margin: 0 calc(var(--sar) + 1rem) 0 calc(var(--sal) + 1rem);
+  background: var(--bg-secondary);
+  border-radius: var(--radius-group);
+  padding: 1rem 1.25rem;
+}
+.cardTitle {
+  margin: 0 0 0.5rem;
+  font-weight: 600;
+}
+.steps {
+  margin: 0;
+  padding-left: 1.25rem;
+  display: grid;
+  gap: 0.5rem;
+}
+.inline {
+  vertical-align: -3px;
+  color: var(--accent);
+}
+.warn {
+  color: var(--orange);
+  font-size: var(--fs-subhead);
+  margin: 0.75rem 0 0;
+}
+.small {
+  margin: 0;
+  font-size: var(--fs-subhead);
+  color: var(--label-secondary);
+}
+.ok {
+  margin: 0 calc(var(--sar) + 1.25rem) 0 calc(var(--sal) + 1.25rem);
+  color: var(--green);
+  font-weight: 600;
+}
+.footer {
+  padding: 0.75rem calc(var(--sar) + 1.25rem) calc(var(--sab) + 1rem) calc(var(--sal) + 1.25rem);
+}
+.footer > * {
+  width: 100%;
+}

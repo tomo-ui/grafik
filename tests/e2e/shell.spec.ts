@@ -8,7 +8,7 @@ test('szkielet: tytuł, meta iOS, manifest', async ({ page, request }) => {
   page.on('pageerror', (e) => errors.push(e.message));
 
   await page.goto('/');
-  await expect(page.getByRole('heading', { name: 'Grafik' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Witaj w Grafiku' })).toBeVisible();
 
   await expect(page.locator('meta[name="viewport"]')).toHaveAttribute(
     'content',
@@ -35,6 +35,8 @@ test('szkielet: tytuł, meta iOS, manifest', async ({ page, request }) => {
 
 test('brak poziomego przewijania i pola >= 16 px (P-13)', async ({ page }) => {
   await page.goto('/');
+  await page.getByRole('button', { name: 'Dalej' }).click();
+  await page.getByRole('button', { name: 'Dalej' }).waitFor();
   const overflow = await page.evaluate(
     () => document.documentElement.scrollWidth > document.documentElement.clientWidth,
   );

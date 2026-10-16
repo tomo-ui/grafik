@@ -21,6 +21,8 @@
   --glass-stroke: rgba(255, 255, 255, 0.6);
   --glass-opaque: #f9f9fb;
   --scrim: rgba(0, 0, 0, 0.35);
+  --sheet-bg: #f2f2f7;
+  --sheet-card: #ffffff;
 
   /* paleta osób */
   --p-blue: #007aff;
@@ -76,6 +78,8 @@
     --glass-stroke: rgba(255, 255, 255, 0.18);
     --glass-opaque: #1c1c1e;
     --scrim: rgba(0, 0, 0, 0.55);
+    --sheet-bg: #1c1c1e;
+    --sheet-card: #2c2c2e;
     --p-blue: #0a84ff;
     --p-green: #30d158;
     --p-orange: #ff9f0a;
@@ -109,6 +113,8 @@
   --glass-stroke: rgba(255, 255, 255, 0.18);
   --glass-opaque: #1c1c1e;
   --scrim: rgba(0, 0, 0, 0.55);
+  --sheet-bg: #1c1c1e;
+  --sheet-card: #2c2c2e;
   --p-blue: #0a84ff;
   --p-green: #30d158;
   --p-orange: #ff9f0a;
