@@ -17,7 +17,8 @@ export default tseslint.config(
       'no-restricted-syntax': [
         'error',
         {
-          selector: "NewExpression[callee.name='Date'][arguments.0.type='Literal']",
+          selector:
+            "NewExpression[callee.name='Date']:matches([arguments.0.type='TemplateLiteral'], [arguments.0.raw=/^[\"']/])",
           message: 'P-04: nie parsuj dat ze stringów przez new Date(); użyj src/domain/dates.ts',
         },
         {

@@ -671,9 +671,9 @@ grafik-pwa/
 
 ### Faza 3 — Dane i domena
 
-- [ ] Dexie: schemat v1, repozytoria, `storage.persist()`.
-- [ ] `domain/`: godziny domyślne (Nd–Czw 10–22, Pt–Sb 10–23), sumy godzin, obsada, konflikty — z testami.
-- [ ] Eksport/import kopii JSON.
+- [x] Dexie: schemat v1, repozytoria, `storage.persist()`.
+- [x] `domain/`: godziny domyślne (Nd–Czw 10–22, Pt–Sb 10–23), sumy godzin, obsada, konflikty — z testami.
+- [x] Eksport/import kopii JSON.
 - **Akceptacja:** testy jednostkowe zielone; dane przetrwają przeładowanie i tryb offline.
 
 ### Faza 4 — Osoby, onboarding, ustawienia
