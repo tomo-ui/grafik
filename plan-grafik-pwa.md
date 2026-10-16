@@ -664,9 +664,9 @@ grafik-pwa/
 
 ### Faza 2 — Design system
 
-- [ ] Tokeny (typografia, kolory light/dark, paleta osób), klasa `.glass`.
-- [ ] TabBar (kapsuła + soczewka), NavigationBar z Large Title, GroupedList/ListRow, Sheet z detentami, SwipeActions, ContextMenu, SegmentedControl, Toggle, Toast z Cofnij, Alert/ActionSheet.
-- [ ] Strona `/_dev/ui` z katalogiem komponentów (tylko w trybie dev).
+- [x] Tokeny (typografia, kolory light/dark, paleta osób), klasa `.glass`.
+- [x] TabBar (kapsuła + soczewka), NavigationBar z Large Title, GroupedList/ListRow, Sheet z detentami, SwipeActions, ContextMenu, SegmentedControl, Toggle, Toast z Cofnij, Alert/ActionSheet.
+- [x] Strona `/_dev/ui` z katalogiem komponentów (tylko w trybie dev).
 - **Akceptacja:** wszystkie komponenty działają dotykiem na iPhone 12 (Playwright + ręcznie), animacje 60 fps, poprawny tryb ciemny.
 
 ### Faza 3 — Dane i domena

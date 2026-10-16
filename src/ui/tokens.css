@@ -1,12 +1,57 @@
 :root {
   color-scheme: light dark;
+
+  /* kolory systemowe */
   --bg-grouped: #f2f2f7;
   --bg-secondary: #ffffff;
+  --bg-tertiary: #f2f2f7;
   --label: #000000;
+  --label-secondary: rgba(60, 60, 67, 0.6);
+  --label-tertiary: rgba(60, 60, 67, 0.3);
+  --fill: rgba(120, 120, 128, 0.12);
   --separator: rgba(60, 60, 67, 0.29);
   --accent: #007aff;
+  --green: #34c759;
+  --red: #ff3b30;
+  --orange: #ff9500;
+  --on-accent: #ffffff;
+
+  /* szkło */
+  --glass-tint: #ffffff;
+  --glass-stroke: rgba(255, 255, 255, 0.6);
+  --glass-opaque: #f9f9fb;
+  --scrim: rgba(0, 0, 0, 0.35);
+
+  /* paleta osób */
+  --p-blue: #007aff;
+  --p-green: #34c759;
+  --p-orange: #ff9500;
+  --p-pink: #ff2d55;
+  --p-purple: #af52de;
+  --p-teal: #30b0c7;
+  --p-indigo: #5856d6;
+  --p-red: #ff3b30;
+  --p-yellow: #ffcc00;
+  --p-mint: #00c7be;
+  --p-cyan: #32ade6;
+  --p-brown: #a2845e;
+
+  /* typografia */
   --font:
     -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, 'Inter', 'Roboto', sans-serif;
+  --fs-large-title: 2.125rem;
+  --fs-title2: 1.375rem;
+  --fs-headline: 1.0625rem;
+  --fs-body: 1.0625rem;
+  --fs-subhead: 0.9375rem;
+  --fs-footnote: 0.8125rem;
+  --fs-caption: 0.75rem;
+
+  /* geometria */
+  --radius-group: 26px;
+  --radius-control: 14px;
+  --touch: 44px;
+
   --sat: env(safe-area-inset-top);
   --sar: env(safe-area-inset-right);
   --sab: env(safe-area-inset-bottom);
@@ -14,13 +59,72 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme='light']) {
     --bg-grouped: #000000;
     --bg-secondary: #1c1c1e;
+    --bg-tertiary: #2c2c2e;
     --label: #ffffff;
+    --label-secondary: rgba(235, 235, 245, 0.6);
+    --label-tertiary: rgba(235, 235, 245, 0.3);
+    --fill: rgba(120, 120, 128, 0.32);
     --separator: rgba(84, 84, 88, 0.6);
     --accent: #0a84ff;
+    --green: #30d158;
+    --red: #ff453a;
+    --orange: #ff9f0a;
+    --glass-tint: #2c2c2e;
+    --glass-stroke: rgba(255, 255, 255, 0.18);
+    --glass-opaque: #1c1c1e;
+    --scrim: rgba(0, 0, 0, 0.55);
+    --p-blue: #0a84ff;
+    --p-green: #30d158;
+    --p-orange: #ff9f0a;
+    --p-pink: #ff375f;
+    --p-purple: #bf5af2;
+    --p-teal: #40c8e0;
+    --p-indigo: #5e5ce6;
+    --p-red: #ff453a;
+    --p-yellow: #ffd60a;
+    --p-mint: #63e6e2;
+    --p-cyan: #64d2ff;
+    --p-brown: #ac8e68;
   }
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --bg-grouped: #000000;
+  --bg-secondary: #1c1c1e;
+  --bg-tertiary: #2c2c2e;
+  --label: #ffffff;
+  --label-secondary: rgba(235, 235, 245, 0.6);
+  --label-tertiary: rgba(235, 235, 245, 0.3);
+  --fill: rgba(120, 120, 128, 0.32);
+  --separator: rgba(84, 84, 88, 0.6);
+  --accent: #0a84ff;
+  --green: #30d158;
+  --red: #ff453a;
+  --orange: #ff9f0a;
+  --glass-tint: #2c2c2e;
+  --glass-stroke: rgba(255, 255, 255, 0.18);
+  --glass-opaque: #1c1c1e;
+  --scrim: rgba(0, 0, 0, 0.55);
+  --p-blue: #0a84ff;
+  --p-green: #30d158;
+  --p-orange: #ff9f0a;
+  --p-pink: #ff375f;
+  --p-purple: #bf5af2;
+  --p-teal: #40c8e0;
+  --p-indigo: #5e5ce6;
+  --p-red: #ff453a;
+  --p-yellow: #ffd60a;
+  --p-mint: #63e6e2;
+  --p-cyan: #64d2ff;
+  --p-brown: #ac8e68;
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
 }
 
 *,
@@ -39,6 +143,7 @@ body {
   color: var(--label);
   font-family: var(--font);
   font-size: 1.0625rem;
+  font-variant-numeric: tabular-nums;
 }
 
 /* UI nie jest treścią do zaznaczania (P-06); pola formularzy wyjątkiem */
@@ -51,16 +156,19 @@ textarea {
   user-select: text;
 }
 
-.app-shell {
-  min-height: 100dvh; /* P-11 */
-  padding: calc(var(--sat) + 1rem) calc(var(--sar) + 1rem) calc(var(--sab) + 1rem)
-    calc(var(--sal) + 1rem);
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  touch-action: manipulation;
 }
 
-.large-title {
-  font-size: 2.125rem;
-  font-weight: 700;
-  margin: 0 0 0.5rem;
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
 /* P-13: pola >= 16 px, brak zoomu na iOS */
@@ -71,29 +179,63 @@ textarea {
   font-family: inherit;
 }
 
-.field {
-  display: grid;
-  gap: 0.25rem;
+/* Materiał Liquid Glass (6.3). Nie nakładaj szkła na szkło. */
+.glass {
+  background: color-mix(in srgb, var(--glass-tint) 74%, transparent);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 0.5px solid var(--glass-stroke);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    0 8px 32px rgba(0, 0, 0, 0.12);
 }
 
-.update-banner {
-  position: fixed;
-  left: calc(var(--sal) + 1rem);
-  right: calc(var(--sar) + 1rem);
-  bottom: calc(var(--sab) + 1rem);
-  background: var(--bg-secondary);
-  border-radius: 14px;
-  padding: 0.75rem 1rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+@media (prefers-reduced-transparency: reduce) {
+  .glass {
+    background: var(--glass-opaque);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
 }
-.update-banner button {
-  min-height: 44px;
-  min-width: 44px;
-  color: var(--accent);
-  background: none;
-  border: 0;
-  font: inherit;
-  font-weight: 600;
+
+/* Wspólne: reakcja na dotyk */
+.pressable {
+  transition:
+    transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+    opacity 0.15s;
+}
+.pressable:active {
+  transform: scale(0.97);
+  opacity: 0.85;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+.app-shell {
+  min-height: 100dvh; /* P-11 */
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* Tło strony lekko pomniejszone, gdy otwarty jest sheet */
+#root {
+  transition: transform 0.35s ease;
+  transform-origin: center top;
+}
+#root[data-sheet-open] {
+  transform: scale(0.96);
 }

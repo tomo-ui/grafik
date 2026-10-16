@@ -1,0 +1,31 @@
+.shell {
+  padding: calc(var(--sat) + 1rem) calc(var(--sar) + 1rem) calc(var(--sab) + 1rem)
+    calc(var(--sal) + 1rem);
+}
+.title {
+  font-size: var(--fs-large-title);
+  font-weight: 700;
+  margin: 0 0 0.5rem;
+}
+.field {
+  display: grid;
+  gap: 0.25rem;
+}
+.banner {
+  position: fixed;
+  z-index: 300;
+  left: calc(var(--sal) + 1rem);
+  right: calc(var(--sar) + 1rem);
+  bottom: calc(var(--sab) + 90px);
+  border-radius: var(--radius-control);
+  padding: 0.5rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.banner button {
+  min-height: var(--touch);
+  min-width: var(--touch);
+  color: var(--accent);
+  font-weight: 600;
+}

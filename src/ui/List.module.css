@@ -1,0 +1,104 @@
+.section {
+  margin: 0 0 1.5rem;
+  padding: 0 calc(var(--sar) + 1rem) 0 calc(var(--sal) + 1rem);
+}
+.header {
+  margin: 0 1rem 0.4rem;
+  font-size: var(--fs-footnote);
+  font-weight: 400;
+  text-transform: uppercase;
+  color: var(--label-secondary);
+}
+.footer {
+  margin: 0.4rem 1rem 0;
+  font-size: var(--fs-footnote);
+  color: var(--label-secondary);
+}
+.group {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-group);
+  overflow: hidden;
+}
+.row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  min-height: 52px;
+  padding: 0.5rem 1rem;
+  text-align: left;
+  background: var(--bg-secondary);
+}
+.rowButton:active {
+  background: var(--fill);
+}
+/* separator od lewej krawędzi tekstu, pomijany przy ostatnim wierszu */
+.row::after {
+  content: '';
+  position: absolute;
+  left: var(--inset, 1rem);
+  right: 0;
+  bottom: 0;
+  height: 0.5px;
+  background: var(--separator);
+}
+.group > :last-child .row::after,
+.group > .row:last-child::after {
+  display: none;
+}
+.leading {
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.title {
+  font-size: var(--fs-body);
+}
+.subtitle {
+  font-size: var(--fs-footnote);
+  color: var(--label-secondary);
+}
+.value {
+  color: var(--label-secondary);
+  font-size: var(--fs-body);
+}
+.chevron {
+  color: var(--label-tertiary);
+  flex-shrink: 0;
+}
+
+/* Swipe */
+.swipe {
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-secondary);
+}
+.swipeActions {
+  position: absolute;
+  inset: 0 0 0 auto;
+  display: flex;
+}
+.swipeBtn {
+  flex: 1;
+  color: #fff;
+  font-size: var(--fs-subhead);
+  font-weight: 600;
+}
+.swipeRed {
+  background: var(--red);
+}
+.swipeBlue {
+  background: var(--accent);
+}
+.swipeContent {
+  position: relative;
+  background: var(--bg-secondary);
+}

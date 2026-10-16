@@ -1,0 +1,51 @@
+.screen {
+  position: relative;
+  height: 100dvh;
+  overflow: hidden;
+}
+.bar {
+  position: absolute;
+  z-index: 5;
+  inset: 0 0 auto 0;
+  height: calc(var(--sat) + 52px);
+  padding: var(--sat) calc(var(--sar) + 0.5rem) 0 calc(var(--sal) + 0.5rem);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 0.5px solid transparent;
+  box-shadow: none;
+}
+/* szkło tylko po przewinięciu (6.3) */
+.barCollapsed {
+  border-radius: 0;
+  border-width: 0 0 0.5px 0;
+}
+.barSide {
+  min-width: var(--touch);
+  display: flex;
+}
+.barTrailing {
+  justify-content: flex-end;
+}
+.smallTitle {
+  font-size: var(--fs-headline);
+  font-weight: 600;
+}
+.scroller {
+  height: 100%;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  padding-top: calc(var(--sat) + 52px);
+}
+.largeTitle {
+  margin: 0;
+  padding: 0.25rem calc(var(--sar) + 1.25rem) 0.75rem calc(var(--sal) + 1.25rem);
+  font-size: var(--fs-large-title);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+.bottomSpace {
+  /* miejsce na pływający TabBar */
+  height: calc(var(--sab) + 110px);
+}
