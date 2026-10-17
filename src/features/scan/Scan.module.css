@@ -392,7 +392,7 @@
   font-size: var(--fs-subhead);
 }
 .matchWarn {
-  color: var(--orange);
+  color: var(--orange-text);
   font-size: var(--fs-subhead);
 }
 .matchBad {

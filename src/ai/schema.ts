@@ -1,4 +1,8 @@
 import { z } from 'zod';
+
+// CSP bez 'unsafe-eval': zod nie może kompilować walidatorów przez new Function
+z.config({ jitless: true });
+
 import { AiError } from './errors';
 
 /**

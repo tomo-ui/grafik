@@ -93,7 +93,7 @@
   overflow-wrap: anywhere;
 }
 .empty {
-  color: var(--orange);
+  color: var(--orange-text);
   font-weight: 600;
 }
 .errText {

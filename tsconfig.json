@@ -14,5 +14,6 @@
     "isolatedModules": true,
     "types": ["vite/client", "vite-plugin-pwa/react", "node"]
   },
-  "include": ["src", "tests", "vite.config.ts", "playwright.config.ts", "scripts"]
+  "include": ["src", "tests", "vite.config.ts", "playwright.config.ts", "scripts"],
+  "exclude": ["src/sw.ts"]
 }

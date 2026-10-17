@@ -1,4 +1,4 @@
-import { lazy, Suspense, useState } from 'react';
+import { lazy, Suspense, useState, type ComponentType } from 'react';
 import { useRegisterSW } from 'virtual:pwa-register/react';
 import { CalendarDays, Settings as SettingsIcon, UserRound, Users } from 'lucide-react';
 import { Route, Switch, useLocation } from 'wouter';
@@ -7,18 +7,24 @@ import { MenuButton, Screen, TabBar, ToastProvider, type Tab } from '../ui';
 import { ShiftEditorProvider, useShiftEditor } from '../features/shift-editor/ShiftEditorContext';
 import { TeamScreen } from '../features/team/TeamScreen';
 import { MySchedule } from '../features/my-schedule/MySchedule';
-import { CalendarView } from '../features/calendar/CalendarView';
-import { Onboarding } from '../features/onboarding/Onboarding';
-import { SettingsHome } from '../features/settings/SettingsHome';
-import { PeopleScreen } from '../features/settings/PeopleScreen';
-import { HoursScreen } from '../features/settings/HoursScreen';
-import { AiSettings } from '../features/settings/AiSettings';
-import { ImportHistory } from '../features/settings/ImportHistory';
 import { ScanProvider, useScan } from '../features/scan/ScanProvider';
 import { PdfProvider, usePdfExport } from '../features/pdf/PdfProvider';
+import { LaunchActions } from './LaunchActions';
 import { useSettings } from './data';
 import { useTheme } from './theme';
 import styles from './App.module.css';
+
+// ekrany rzadziej używane — osobne pakiety (pakiet startowy < 200 kB gzip)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- props różnych ekranów
+const lz = <K extends string>(load: () => Promise<Record<K, ComponentType<any>>>, name: K) =>
+  lazy(() => load().then((m) => ({ default: m[name] })));
+const CalendarView = lz(() => import('../features/calendar/CalendarView'), 'CalendarView');
+const Onboarding = lz(() => import('../features/onboarding/Onboarding'), 'Onboarding');
+const SettingsHome = lz(() => import('../features/settings/SettingsHome'), 'SettingsHome');
+const PeopleScreen = lz(() => import('../features/settings/PeopleScreen'), 'PeopleScreen');
+const HoursScreen = lz(() => import('../features/settings/HoursScreen'), 'HoursScreen');
+const AiSettings = lz(() => import('../features/settings/AiSettings'), 'AiSettings');
+const ImportHistory = lz(() => import('../features/settings/ImportHistory'), 'ImportHistory');
 
 // Katalog komponentów tylko w trybie dev
 const UiCatalog = import.meta.env.DEV
@@ -87,6 +93,7 @@ function Shell() {
     <ShiftEditorProvider settings={settings}>
       <ScanProvider settings={settings}>
         <PdfProvider settings={settings}>
+          <LaunchActions />
           <Switch>
             <Route path="/">
               <MySchedule settings={settings} />

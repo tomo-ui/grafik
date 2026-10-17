@@ -1,4 +1,8 @@
 import { z } from 'zod';
+
+// CSP bez 'unsafe-eval': zod nie może kompilować walidatorów przez new Function
+z.config({ jitless: true });
+
 import { db, type GrafikDB } from './db';
 import { defaultSettings } from './repos';
 import { isValidISODate } from '../domain/dates';

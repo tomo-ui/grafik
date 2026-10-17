@@ -15,7 +15,7 @@
   pointer-events: none;
 }
 .filled {
-  background: var(--accent);
+  background: var(--accent-fill);
   color: var(--on-accent);
 }
 .tinted {
@@ -26,7 +26,7 @@
   color: var(--accent);
 }
 .destructive.filled {
-  background: var(--red);
+  background: var(--red-fill);
 }
 .destructive.tinted,
 .destructive.plain {

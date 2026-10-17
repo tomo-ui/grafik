@@ -83,7 +83,7 @@
   color: var(--accent);
 }
 .warn {
-  color: var(--orange);
+  color: var(--orange-text);
   font-size: var(--fs-subhead);
   margin: 0.75rem 0 0;
 }

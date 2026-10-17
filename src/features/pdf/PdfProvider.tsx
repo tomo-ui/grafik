@@ -1,8 +1,18 @@
-import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from 'react';
+import {
+  createContext,
+  lazy,
+  Suspense,
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+  type ReactNode,
+} from 'react';
 import { todayISO } from '../../domain/dates';
 import type { Settings } from '../../domain/types';
 import { useUi } from '../../store/ui';
-import { PdfSheet } from './PdfSheet';
+
+const PdfSheet = lazy(() => import('./PdfSheet').then((m) => ({ default: m.PdfSheet })));
 
 interface Api {
   openPdf: () => void;
@@ -33,13 +43,17 @@ export function PdfProvider({ settings, children }: { settings: Settings; childr
   return (
     <Ctx.Provider value={api}>
       {children}
-      <PdfSheet
-        key={state.key}
-        open={state.open}
-        settings={settings}
-        initial={state.initial}
-        onClose={() => setState((s) => ({ ...s, open: false }))}
-      />
+      <Suspense fallback={null}>
+        {state.key > 0 && (
+          <PdfSheet
+            key={state.key}
+            open={state.open}
+            settings={settings}
+            initial={state.initial}
+            onClose={() => setState((s) => ({ ...s, open: false }))}
+          />
+        )}
+      </Suspense>
     </Ctx.Provider>
   );
 }

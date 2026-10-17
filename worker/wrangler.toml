@@ -1,0 +1,11 @@
+name = "grafik-proxy"
+main = "src/index.ts"
+compatibility_date = "2026-01-01"
+
+[vars]
+ALLOWED_ORIGIN = "https://grafik.example.com"
+RATE_LIMIT_PER_MIN = "10"
+
+# Sekrety (nie trafiają do repozytorium):
+#   wrangler secret put GEMINI_API_KEY
+#   wrangler secret put INVITE_TOKENS     # np. "token1,token2"

@@ -155,7 +155,7 @@
   margin: 0;
   padding: 0 calc(var(--sar) + 1.25rem) 0.75rem calc(var(--sal) + 1.25rem);
   font-size: var(--fs-footnote);
-  color: var(--orange);
+  color: var(--orange-text);
 }
 .err {
   margin: 0;

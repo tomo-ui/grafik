@@ -1,5 +1,7 @@
 import {
   createContext,
+  lazy,
+  Suspense,
   useCallback,
   useContext,
   useEffect,
@@ -13,36 +15,22 @@ import { runWhenSettled, useToast } from '../../ui';
 import { repos } from '../../db/repos';
 import { uuid } from '../../db/db';
 import { usePersons } from '../../app/data';
-import { AiError } from '../../ai/errors';
-import { generateSchedule } from '../../ai/gemini';
-import {
-  batchWithinLimit,
-  ImageError,
-  ingestImage,
-  makeThumbnail,
-  MAX_IMAGES,
-  renderForUpload,
-  revokeScanImage,
-  type Crop,
-  type ImageSource,
-  type ScanImage,
-} from '../../ai/image';
-import {
-  buildImportPlan,
-  conflictPolicy,
-  initialDecisions,
-  type ImportDecisions,
-} from '../../ai/importPlan';
-import { normalizeSchedule, type NormalizedImport } from '../../ai/normalize';
-import { buildPrompt, PROMPT_VERSION } from '../../ai/prompt';
+import type { Crop, ImageSource, ScanImage } from '../../ai/image';
+import type { ImportDecisions } from '../../ai/importPlan';
+import type { NormalizedImport } from '../../ai/normalize';
 import { plural, SHIFTS } from '../../domain/i18n';
-import { nextColor } from '../../domain/people';
 import { todayISO } from '../../domain/dates';
 import type { ScanDraft, Settings } from '../../domain/types';
 import { useUi } from '../../store/ui';
 import { imageFromClipboardData } from './clipboard';
-import { ReviewScreen } from './ReviewScreen';
-import { ScanSheet } from './ScanSheet';
+
+// ciężkie ekrany i logika ładowane dopiero przy pierwszym użyciu (pakiet startowy < 200 kB gzip)
+const ScanSheet = lazy(() => import('./ScanSheet').then((m) => ({ default: m.ScanSheet })));
+const ReviewScreen = lazy(() =>
+  import('./ReviewScreen').then((m) => ({ default: m.ReviewScreen })),
+);
+const loadEngine = () => import('./engine');
+const revokeScanImage = (i: ScanImage) => URL.revokeObjectURL(i.url);
 
 export type ScanStep = 'closed' | 'pick' | 'preview' | 'running' | 'review';
 
@@ -119,6 +107,9 @@ export function ScanProvider({ settings, children }: { settings: Settings; child
   const [privacyPrompt, setPrivacyPrompt] = useState(false);
   const [review, setReview] = useState<ReviewData | null>(null);
   const [importing, setImporting] = useState(false);
+  // leniwe ekrany montujemy po pierwszym otwarciu
+  const [mounted, setMounted] = useState(false);
+  if (!mounted && step !== 'closed') setMounted(true);
 
   const lock = useRef(false);
   const ctrl = useRef<AbortController | null>(null);
@@ -155,7 +146,7 @@ export function ScanProvider({ settings, children }: { settings: Settings; child
           decisions: d.decisions as ImportDecisions,
           thumb: d.imageThumb,
           model: data.model ?? settings.geminiModel,
-          promptVersion: data.promptVersion ?? PROMPT_VERSION,
+          promptVersion: data.promptVersion ?? '',
           createdAt: d.createdAt,
         });
         setStep('review');
@@ -212,19 +203,20 @@ export function ScanProvider({ settings, children }: { settings: Settings; child
 
   const addBlobs = useCallback(async (blobs: Blob[], source: ImageSource) => {
     setNotice('');
+    const eng = await loadEngine();
     let list = imagesRef.current;
     for (const blob of blobs) {
-      if (list.length >= MAX_IMAGES) {
-        setNotice(new ImageError('limit').message);
+      if (list.length >= eng.MAX_IMAGES) {
+        setNotice(new eng.ImageError('limit').message);
         break;
       }
       try {
-        const img = await ingestImage(blob, source);
+        const img = await eng.ingestImage(blob, source);
         list = [...list, img];
         setImages(list);
         setActive(list.length - 1);
       } catch (e) {
-        setNotice(e instanceof ImageError ? e.message : new ImageError('decode').message);
+        setNotice(e instanceof eng.ImageError ? e.message : new eng.ImageError('decode').message);
       }
     }
     if (list.length > 0) setStep('preview');
@@ -269,28 +261,31 @@ export function ScanProvider({ settings, children }: { settings: Settings; child
   /* ---------- analiza ---------- */
   const analyzeNow = useCallback(async () => {
     if (lock.current) return;
+    lock.current = true;
+    const eng = await loadEngine();
     if (!settings.geminiApiKey) {
-      setError({ message: new AiError('bad-key').message, goToSettings: true });
+      lock.current = false;
+      setError({ message: new eng.AiError('bad-key').message, goToSettings: true });
       return;
     }
     if (!navigator.onLine) {
-      setError({ message: new AiError('offline').message, goToSettings: false });
+      lock.current = false;
+      setError({ message: new eng.AiError('offline').message, goToSettings: false });
       return;
     }
-    lock.current = true;
     setError(null);
     setWaitSec(null);
     setStep('running');
     const ac = new AbortController();
     ctrl.current = ac;
     try {
-      const rendered = await Promise.all(imagesRef.current.map(renderForUpload));
-      if (!batchWithinLimit(rendered.map((r) => r.base64.length))) {
-        throw new ImageError('too-large');
+      const rendered = await Promise.all(imagesRef.current.map(eng.renderForUpload));
+      if (!eng.batchWithinLimit(rendered.map((r) => r.base64.length))) {
+        throw new eng.ImageError('too-large');
       }
       const today = todayISO();
       const people = (persons ?? []).filter((p) => !p.deletedAt);
-      const prompt = buildPrompt({
+      const prompt = eng.buildPrompt({
         today,
         suggestedPeriod: period
           ? `${period.year}-${String(period.month).padStart(2, '0')}`
@@ -298,7 +293,7 @@ export function ScanProvider({ settings, children }: { settings: Settings; child
         people,
         defaults: settings.defaultHours,
       });
-      const res = await generateSchedule({
+      const res = await eng.generateSchedule({
         apiKey: settings.geminiApiKey,
         model: settings.geminiModel,
         prompt,
@@ -306,19 +301,19 @@ export function ScanProvider({ settings, children }: { settings: Settings; child
         signal: ac.signal,
         onWait: (s) => setWaitSec(s > 0 ? s : null),
       });
-      const normalized = normalizeSchedule(res.parsed, {
+      const normalized = eng.normalizeSchedule(res.parsed, {
         today,
         suggestedPeriod: period ?? undefined,
         people,
         defaults: settings.defaultHours,
       });
-      if (normalized.persons.every((p) => p.entries.length === 0)) throw new AiError('empty');
+      if (normalized.persons.every((p) => p.entries.length === 0)) throw new eng.AiError('empty');
       const data: ReviewData = {
         normalized,
-        decisions: initialDecisions(normalized),
-        thumb: await makeThumbnail(rendered[0]!.blob),
+        decisions: eng.initialDecisions(normalized),
+        thumb: await eng.makeThumbnail(rendered[0]!.blob),
         model: res.model,
-        promptVersion: PROMPT_VERSION,
+        promptVersion: eng.PROMPT_VERSION,
         createdAt: Date.now(),
       };
       await persistDraft(data);
@@ -326,15 +321,15 @@ export function ScanProvider({ settings, children }: { settings: Settings; child
       resetImages();
       setStep('review');
     } catch (e) {
-      if (e instanceof AiError && e.code === 'aborted') {
+      if (e instanceof eng.AiError && e.code === 'aborted') {
         setStep('preview');
       } else {
         setError({
           message:
-            e instanceof AiError || e instanceof ImageError
+            e instanceof eng.AiError || e instanceof eng.ImageError
               ? e.message
-              : new AiError('unknown').message,
-          goToSettings: e instanceof AiError && e.goToSettings,
+              : new eng.AiError('unknown').message,
+          goToSettings: e instanceof eng.AiError && e.goToSettings,
         });
         setStep('preview'); // zdjęcia zostają — „Ponów” bez ponownego wyboru (P-25)
       }
@@ -376,6 +371,7 @@ export function ScanProvider({ settings, children }: { settings: Settings; child
     lock.current = true;
     setImporting(true);
     try {
+      const eng = await loadEngine();
       const batchId = uuid();
       const allPersons = (persons ?? []).filter((p) => !p.deletedAt);
       const dates = r.normalized.persons.flatMap((p) => p.entries.map((e) => e.date)).sort();
@@ -387,13 +383,13 @@ export function ScanProvider({ settings, children }: { settings: Settings; child
               `${Number(dates[dates.length - 1]!.slice(0, 4)) + 1}-12-31`,
             )
           : [];
-      const plan = buildImportPlan(r.normalized, r.decisions, {
+      const plan = eng.buildImportPlan(r.normalized, r.decisions, {
         persons: allPersons,
         existing,
         newId: uuid,
         now: Date.now(),
         batchId,
-        pickColor: nextColor,
+        pickColor: eng.nextColor,
       });
       const res = await repos.imports.apply({
         batch: {
@@ -406,7 +402,7 @@ export function ScanProvider({ settings, children }: { settings: Settings; child
         newPersons: plan.newPersons,
         aliasUpdates: plan.aliasUpdates,
         shifts: plan.shifts,
-        choose: conflictPolicy(r.decisions),
+        choose: eng.conflictPolicy(r.decisions),
       });
       await repos.imports.clearDraft();
       setReview(null);
@@ -506,8 +502,10 @@ export function ScanProvider({ settings, children }: { settings: Settings; child
   return (
     <Ctx.Provider value={api}>
       {children}
-      <ScanSheet />
-      {review && step === 'review' && <ReviewScreen />}
+      <Suspense fallback={null}>
+        {mounted && <ScanSheet />}
+        {review && step === 'review' && <ReviewScreen />}
+      </Suspense>
     </Ctx.Provider>
   );
 }

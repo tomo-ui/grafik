@@ -8,6 +8,9 @@ const APP_SPECS = [
   'views.spec.ts',
   'scan.spec.ts',
   'pdf.spec.ts',
+  'launch.spec.ts',
+  'a11y.spec.ts',
+  'csp.spec.ts',
 ];
 
 export default defineConfig({

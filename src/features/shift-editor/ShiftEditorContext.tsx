@@ -1,8 +1,24 @@
-import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from 'react';
+import {
+  createContext,
+  lazy,
+  Suspense,
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+  type ReactNode,
+} from 'react';
 import { usePersons } from '../../app/data';
 import type { Settings, Shift } from '../../domain/types';
-import { AddShiftSheet, type AddPrefill } from './AddShiftSheet';
-import { EditShiftSheet } from './EditShiftSheet';
+import type { AddPrefill } from './AddShiftSheet';
+
+// arkusze ładowane przy pierwszym otwarciu
+const AddShiftSheet = lazy(() =>
+  import('./AddShiftSheet').then((m) => ({ default: m.AddShiftSheet })),
+);
+const EditShiftSheet = lazy(() =>
+  import('./EditShiftSheet').then((m) => ({ default: m.EditShiftSheet })),
+);
 
 interface Api {
   openAdd: (prefill?: AddPrefill) => void;
@@ -45,26 +61,28 @@ export function ShiftEditorProvider({
   return (
     <Ctx.Provider value={api}>
       {children}
-      {persons && (
-        <AddShiftSheet
-          key={`add${add.key}`}
-          open={add.open}
-          persons={active}
-          settings={settings}
-          prefill={add.prefill}
-          onClose={() => setAdd((s) => ({ ...s, open: false }))}
-        />
-      )}
-      {edit.shift && (
-        <EditShiftSheet
-          key={`edit${edit.key}`}
-          open={edit.open}
-          shift={edit.shift}
-          person={persons?.find((p) => p.id === edit.shift?.personId)}
-          settings={settings}
-          onClose={() => setEdit((s) => ({ ...s, open: false }))}
-        />
-      )}
+      <Suspense fallback={null}>
+        {persons && add.key > 0 && (
+          <AddShiftSheet
+            key={`add${add.key}`}
+            open={add.open}
+            persons={active}
+            settings={settings}
+            prefill={add.prefill}
+            onClose={() => setAdd((s) => ({ ...s, open: false }))}
+          />
+        )}
+        {edit.shift && (
+          <EditShiftSheet
+            key={`edit${edit.key}`}
+            open={edit.open}
+            shift={edit.shift}
+            person={persons?.find((p) => p.id === edit.shift?.personId)}
+            settings={settings}
+            onClose={() => setEdit((s) => ({ ...s, open: false }))}
+          />
+        )}
+      </Suspense>
     </Ctx.Provider>
   );
 }

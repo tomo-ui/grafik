@@ -718,11 +718,11 @@ grafik-pwa/
 
 ### Faza 9 — Dopracowanie
 
-- [ ] Ikony i splash screeny finalne, skróty w manifeście, `share_target` (Android).
-- [ ] Puste stany, komunikaty błędów po polsku, `prefers-reduced-motion/transparency`.
-- [ ] Lighthouse, audyt dostępności, testy E2E na iPhone 12 / Pixel 7.
-- [ ] (Opcjonalnie) wariant B: Cloudflare Worker proxy.
-- [ ] Deploy (Cloudflare Pages / Vercel) + instrukcja w README.
+- [x] Ikony i splash screeny finalne, skróty w manifeście, `share_target` (Android).
+- [x] Puste stany, komunikaty błędów po polsku, `prefers-reduced-motion/transparency`.
+- [x] Lighthouse (`docs/lighthouse.md`: 95/100/100/100), audyt dostępności, testy E2E na iPhone 12 / Pixel 7.
+- [x] (Opcjonalnie) wariant B: Cloudflare Worker proxy — `worker/` + testy; aplikacja domyślnie bezpośrednio (wariant A), przełączenie klienta na proxy poza zakresem.
+- [x] Deploy (Cloudflare Pages / Vercel) + instrukcja w README (`_headers`, `_redirects`, `vercel.json`).
 
 ### Faza 10 — Audyt końcowy (obowiązkowy, przed oddaniem)
 
@@ -862,7 +862,7 @@ Waga błędów: **krytyczny** (utrata/uszkodzenie danych, crash, główna funkcj
 - [ ] Przeszukanie `src/` i `dist/` nie znajduje żadnego klucza API; build nie zawiera `.env` z kluczem.
 - [ ] Klucz nie trafia do kopii zapasowej, logów ani URL.
 - [ ] Komunikat o prywatności darmowego API przed pierwszym skanem.
-- [ ] Content-Security-Policy na hostingu: `connect-src 'self' https://generativelanguage.googleapis.com` (+ adres proxy w wariancie B).
+- [x] Content-Security-Policy na hostingu: `connect-src 'self' https://generativelanguage.googleapis.com` (+ adres proxy w wariancie B).
 
 ---
 
