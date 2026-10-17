@@ -722,7 +722,7 @@ grafik-pwa/
 - [x] Puste stany, komunikaty błędów po polsku, `prefers-reduced-motion/transparency`.
 - [x] Lighthouse (`docs/lighthouse.md`: 95/100/100/100), audyt dostępności, testy E2E na iPhone 12 / Pixel 7.
 - [x] (Opcjonalnie) wariant B: Cloudflare Worker proxy — `worker/` + testy; aplikacja domyślnie bezpośrednio (wariant A), przełączenie klienta na proxy poza zakresem.
-- [x] Deploy na GitHub Pages (workflow `.github/workflows/pages.yml`, baza `/grafik/`, CSP w meta, `404.html`) + instrukcja w README.
+- [x] Deploy na Vercel (`vercel.json`: nagłówki, CSP, SPA fallback; import repozytorium z GitHuba) + instrukcja w README.
 
 ### Faza 10 — Audyt końcowy (obowiązkowy, przed oddaniem)
 

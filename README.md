@@ -22,19 +22,19 @@ _Ustawienia → Skanowanie AI_. Zapisuje się tylko lokalnie, jest pomijany w ko
 trafia do adresów URL ani logów. Na darmowym planie Google może używać wysłanych zdjęć do ulepszania
 modeli — aplikacja pokazuje o tym informację przed pierwszym skanem.
 
-## Wdrożenie (GitHub Pages)
+## Wdrożenie (Vercel)
 
-Aplikacja jest statyczna i publikuje się wyłącznie przez GitHub — bez zewnętrznych usług. Workflow
-`.github/workflows/pages.yml` przy każdym pushu na `master` uruchamia typecheck, lint i testy, buduje
-aplikację z bazą `/<nazwa-repozytorium>/` i wdraża ją na GitHub Pages.
+Aplikacja jest statyczna; Vercel buduje ją prosto z repozytorium GitHub.
 
-**Jednorazowo:** w repozytorium _Settings → Pages → Build and deployment → Source: GitHub Actions_.
-Adres: `https://<użytkownik>.github.io/grafik/` (HTTPS jest wymagany dla PWA).
+1. vercel.com → _Add New… → Project_ → zaimportuj `tomo-ui/grafik` (konto GitHub).
+2. Ustawienia projektu zostaw domyślne: framework _Vite_, komenda `npm run build`, katalog wyjściowy `dist`.
+   **Nie ustawiaj** zmiennej `BASE_PATH` (aplikacja działa w korzeniu domeny). Żadnych zmiennych środowiskowych ani kluczy nie trzeba.
+3. _Deploy_. Każdy push na `master` wdraża produkcję, a pull requesty dostają adresy podglądu.
 
-- GitHub Pages nie ustawia nagłówków, więc polityka CSP (`config/csp.txt`) trafia do `<meta>` w buildzie.
-  Dopuszcza połączenia tylko do własnej domeny i `generativelanguage.googleapis.com`.
-- Odświeżenie na podstronie (np. `/grafik/team`) obsługuje `404.html` — kopia `index.html`, generowana w buildzie.
-- Lokalny build jak na Pages: `BASE_PATH=/grafik/ npm run build` (bez `BASE_PATH` baza to `/`).
+Reguły hostingu są w `vercel.json`: nagłówki (CSP, `nosniff`, `no-referrer`), `no-cache` dla `sw.js` i `index.html`,
+cache bezterminowy dla `assets/` oraz przekierowanie nieznanych ścieżek na `index.html` (odświeżenie na `/team` działa).
+Politykę CSP (`config/csp.txt`) dodatkowo wstawiamy do `<meta>` w buildzie, więc obowiązuje na każdym hostingu.
+HTTPS jest domyślny (wymagany dla PWA).
 
 Instalacja: iPhone — Safari → Udostępnij → _Dodaj do ekranu początkowego_; Android — menu Chrome →
 _Zainstaluj aplikację_. Kopię danych (Ustawienia → Dane) wykonaj przed przeniesieniem z karty Safari do
@@ -55,7 +55,7 @@ npx wrangler secret put INVITE_TOKENS      # np. token1,token2
 npx wrangler deploy
 ```
 
-Do `connect-src` w `config/csp.txt` dopisz adres Workera, a `ALLOWED_ORIGIN` ustaw na `https://<użytkownik>.github.io`. Handler jest przetestowany (`tests/unit/worker.test.ts`);
+Do `connect-src` w `config/csp.txt` dopisz adres Workera, a `ALLOWED_ORIGIN` ustaw na adres aplikacji na Vercelu. Handler jest przetestowany (`tests/unit/worker.test.ts`);
 aplikacja domyślnie łączy się bezpośrednio z Gemini (wariant A) — przełączenie klienta na proxy to osobny
 krok, potrzebny dopiero przy współdzieleniu aplikacji.
 

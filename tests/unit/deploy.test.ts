@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest';
 
 const csp = readFileSync('config/csp.txt', 'utf8').trim();
 
-describe('wdrożenie na GitHub Pages', () => {
+describe('wdrożenie na Vercel', () => {
   it('CSP: tylko własne skrypty, połączenia do własnej domeny i Gemini, brak eval', () => {
     const d = Object.fromEntries(
       csp.split(';').map((p) => {
@@ -19,13 +19,19 @@ describe('wdrożenie na GitHub Pages', () => {
     expect(csp).not.toContain('frame-ancestors'); // w <meta> ignorowane
   });
 
-  it('workflow buduje z bazą /<repozytorium>/ i wdraża na Pages po testach', () => {
-    const wf = readFileSync('.github/workflows/pages.yml', 'utf8');
-    expect(wf).toContain('BASE_PATH: /${{ github.event.repository.name }}/');
-    expect(wf).toContain('actions/deploy-pages');
-    for (const step of ['npm run typecheck', 'npm run lint', 'npm run test'])
-      expect(wf).toContain(step);
-    expect(existsSync('vercel.json')).toBe(false);
+  it('vercel.json: te same dyrektywy CSP co config/csp.txt, SPA fallback, brak cache SW', () => {
+    const v = JSON.parse(readFileSync('vercel.json', 'utf8')) as {
+      rewrites: { destination: string }[];
+      headers: { source: string; headers: { key: string; value: string }[] }[];
+    };
+    const all = v.headers.find((h) => h.source === '/(.*)')!;
+    const header = all.headers.find((h) => h.key === 'Content-Security-Policy')!.value;
+    expect(header.startsWith(csp)).toBe(true);
+    expect(header).toContain("frame-ancestors 'none'");
+    expect(v.rewrites[0]!.destination).toBe('/index.html');
+    const sw = v.headers.find((h) => h.source === '/sw.js')!;
+    expect(sw.headers[0]!.value).toBe('no-cache');
+    expect(existsSync('.github/workflows')).toBe(false);
   });
 });
 

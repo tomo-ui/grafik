@@ -12,7 +12,7 @@ declare let self: ServiceWorkerGlobalScope & {
   __WB_MANIFEST: Array<string | { url: string; revision: string | null }>;
 };
 
-/** Baza aplikacji: „/” lokalnie, „/grafik/” na GitHub Pages. */
+/** Baza aplikacji: „/” lokalnie, np. „/podkatalog/” przy hostingu w podkatalogu (zmienna BASE_PATH). */
 const BASE = (import.meta as unknown as { env: { BASE_URL: string } }).env.BASE_URL;
 
 /** Cache, w którym dzielone z Androida zdjęcie czeka na odebranie przez aplikację. */

@@ -3,7 +3,7 @@ main = "src/index.ts"
 compatibility_date = "2026-01-01"
 
 [vars]
-ALLOWED_ORIGIN = "https://tomo-ui.github.io"
+ALLOWED_ORIGIN = "https://grafik.vercel.app"
 RATE_LIMIT_PER_MIN = "10"
 
 # Sekrety (nie trafiają do repozytorium):

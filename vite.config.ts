@@ -4,9 +4,9 @@ import react from '@vitejs/plugin-react';
 import { copyFileSync, readFileSync } from 'node:fs';
 import { VitePWA } from 'vite-plugin-pwa';
 
-// Hosting: GitHub Pages (projekt pod /grafik/); lokalnie i w testach e2e baza to „/”
+// Hosting: Vercel (korzeń domeny, baza „/”); BASE_PATH pozwala zbudować pod podkatalogiem
 const base = process.env.BASE_PATH ?? '/';
-// Jedna polityka CSP: nagłówek w podglądzie/testach, <meta> w buildzie (GitHub Pages nie ustawia nagłówków)
+// Jedna polityka CSP: nagłówek w podglądzie/testach i vercel.json, <meta> w buildzie (działa na każdym hostingu)
 const CSP = readFileSync('config/csp.txt', 'utf8').trim();
 
 const hostingPlugin = (): Plugin => ({
@@ -19,7 +19,7 @@ const hostingPlugin = (): Plugin => ({
       injectTo: 'head-prepend',
     },
   ],
-  // GitHub Pages: nieznane ścieżki (np. /grafik/team po odświeżeniu) dostają 404.html = ta sama aplikacja
+  // SPA na hostingach bez przepisań: nieznane ścieżki dostają 404.html = ta sama aplikacja
   closeBundle() {
     copyFileSync('dist/index.html', 'dist/404.html');
   },

@@ -84,12 +84,12 @@ szerokości kolumn PDF) naprawiono w ich fazach i pokryto testami.
 
 **Bezpieczeństwo i prywatność**
 
-| Punkt                                   | Dowód                                                                     |
-| --------------------------------------- | ------------------------------------------------------------------------- |
-| Brak klucza w `src/`, `dist/`, `.env`   | `deploy.test.ts`                                                          |
-| Klucz poza kopią, logami, URL           | `db.test.ts` (P-19), `gemini.test.ts` (nagłówek, nie URL), `scan.spec.ts` |
-| Komunikat o prywatności przed 1. skanem | `scan.spec.ts` (pełny przepływ)                                           |
-| CSP                                     | `config/csp.txt` (meta w buildzie), `deploy.test.ts`, `csp.spec.ts`         |
+| Punkt                                   | Dowód                                                                              |
+| --------------------------------------- | ---------------------------------------------------------------------------------- |
+| Brak klucza w `src/`, `dist/`, `.env`   | `deploy.test.ts`                                                                   |
+| Klucz poza kopią, logami, URL           | `db.test.ts` (P-19), `gemini.test.ts` (nagłówek, nie URL), `scan.spec.ts`          |
+| Komunikat o prywatności przed 1. skanem | `scan.spec.ts` (pełny przepływ)                                                    |
+| CSP                                     | `config/csp.txt` (meta w buildzie), `vercel.json`, `deploy.test.ts`, `csp.spec.ts` |
 
 ## Rejestr pułapek P-xx → rozwiązanie → dowód
 
