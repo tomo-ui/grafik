@@ -177,7 +177,9 @@ export function ScanProvider({ settings, children }: { settings: Settings; child
   // zapis szkicu z opóźnieniem po każdej decyzji + natychmiast przy ukryciu aplikacji
   useEffect(() => {
     if (!review) return;
-    const t = window.setTimeout(() => void persistDraft(review), 300);
+    const t = window.setTimeout(() => {
+      if (reviewRef.current === review) void persistDraft(review);
+    }, 300);
     return () => window.clearTimeout(t);
   }, [review, persistDraft]);
   useEffect(() => {
@@ -360,9 +362,10 @@ export function ScanProvider({ settings, children }: { settings: Settings; child
   }, []);
 
   const discardReview = useCallback(async () => {
-    await repos.imports.clearDraft().catch(() => {});
+    reviewRef.current = null; // anuluje oczekujący zapis szkicu (opóźniony o 300 ms)
     setReview(null);
     setStep('closed');
+    await repos.imports.clearDraft().catch(() => {});
   }, []);
 
   const importNow = useCallback(async () => {
@@ -404,9 +407,10 @@ export function ScanProvider({ settings, children }: { settings: Settings; child
         shifts: plan.shifts,
         choose: eng.conflictPolicy(r.decisions),
       });
-      await repos.imports.clearDraft();
+      reviewRef.current = null;
       setReview(null);
       setStep('closed');
+      await repos.imports.clearDraft();
       const skipped = res.skipped ? `, pominięto ${res.skipped}` : '';
       toast(`Zaimportowano ${plural(res.added, SHIFTS)}${skipped}`, () => {
         repos.imports

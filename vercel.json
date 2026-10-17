@@ -1,7 +1,11 @@
 {
   "rewrites": [
     {
-      "source": "/((?!assets/|icons/|splash/|sw[.]js|manifest[.]webmanifest|robots[.]txt).*)",
+      "source": "/pc",
+      "destination": "/pc/index.html"
+    },
+    {
+      "source": "/((?!assets/|icons/|splash/|pc/|sw[.]js|manifest[.]webmanifest|robots[.]txt).*)",
       "destination": "/index.html"
     }
   ],

@@ -11,14 +11,30 @@ const CSP = readFileSync('config/csp.txt', 'utf8').trim();
 
 const hostingPlugin = (): Plugin => ({
   name: 'grafik-hosting',
+  enforce: 'post',
   apply: 'build',
-  transformIndexHtml: () => [
-    {
-      tag: 'meta',
-      attrs: { 'http-equiv': 'Content-Security-Policy', content: CSP },
-      injectTo: 'head-prepend',
+  transformIndexHtml: {
+    // po wtyczce PWA: konsola /pc/ dostaje własny manifest (instalowalna osobno od aplikacji mobilnej)
+    order: 'post',
+    handler(html, ctx) {
+      const isPc = ctx.path.endsWith('/pc/index.html');
+      return {
+        html: isPc
+          ? html.replace(
+              /<link rel="manifest" href="[^"]*"[^>]*>/,
+              `<link rel="manifest" href="${base}pc.webmanifest">`,
+            )
+          : html,
+        tags: [
+          {
+            tag: 'meta',
+            attrs: { 'http-equiv': 'Content-Security-Policy', content: CSP },
+            injectTo: 'head-prepend',
+          },
+        ],
+      };
     },
-  ],
+  },
   // SPA na hostingach bez przepisań: nieznane ścieżki dostają 404.html = ta sama aplikacja
   closeBundle() {
     copyFileSync('dist/index.html', 'dist/404.html');
@@ -30,7 +46,6 @@ export default defineConfig({
   define: { __APP_VERSION__: JSON.stringify(process.env.npm_package_version ?? '0.0.0') },
   plugins: [
     react(),
-    hostingPlugin(),
     VitePWA({
       // własny service worker (src/sw.ts): precache + NetworkOnly dla AI + odbiór zdjęcia z Androida
       strategies: 'injectManifest',
@@ -97,7 +112,12 @@ export default defineConfig({
         },
       },
     }),
+    hostingPlugin(),
   ],
+  build: {
+    // dwa wejścia: aplikacja mobilna (/) i konsola na komputer (/pc/)
+    rollupOptions: { input: { main: 'index.html', pc: 'pc/index.html' } },
+  },
   preview: { headers: { 'Content-Security-Policy': CSP } },
   test: { environment: 'jsdom', include: ['tests/unit/**/*.test.{ts,tsx}'] },
 });

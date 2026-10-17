@@ -14,6 +14,9 @@ const APP_SPECS = [
   'offline.spec.ts',
 ];
 
+/** konsola na komputer (/pc/) — osobne projekty z oknem pulpitu */
+const PC_SPECS = ['pc-*.spec.ts'];
+
 export default defineConfig({
   testDir: 'tests/e2e',
   forbidOnly: true,
@@ -44,6 +47,24 @@ export default defineConfig({
       name: 'pixel-7',
       testMatch: APP_SPECS,
       use: { ...devices['Pixel 7'], baseURL: 'http://localhost:4173' },
+    },
+    {
+      name: 'desktop-chromium',
+      testMatch: PC_SPECS,
+      use: {
+        ...devices['Desktop Chrome'],
+        viewport: { width: 1440, height: 900 },
+        baseURL: 'http://localhost:4173',
+      },
+    },
+    {
+      name: 'desktop-webkit',
+      testMatch: PC_SPECS,
+      use: {
+        ...devices['Desktop Safari'],
+        viewport: { width: 1440, height: 900 },
+        baseURL: 'http://localhost:4173',
+      },
     },
     {
       name: 'iphone-12-ui',

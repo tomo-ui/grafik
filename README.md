@@ -4,6 +4,15 @@ PWA do grafiku pracy zespołu (wygląd iOS 26 / Liquid Glass, interfejs po polsk
 albo skanowane ze zdjęcia (Gemini), siatka zespołu, „Mój grafik”, kalendarz, eksport do PDF, praca offline.
 Dane zostają na urządzeniu (IndexedDB).
 
+## Dwie wersje
+
+- **Aplikacja mobilna** (`/`) — PWA na telefon, wygląd iOS 26.
+- **Konsola na komputer** (`/pc/`) — osobny projekt interfejsu do obsługi i administracji: siatka grafiku z edycją
+  jak w arkuszu (klawiatura, zaznaczanie zakresów, schowek, cofnij/ponów), osoby, raporty godzin, import ze zdjęcia,
+  eksport PDF/CSV, kopie, kosz i ustawienia. Opis i skróty: [`docs/pc.md`](docs/pc.md).
+
+Obie wersje korzystają z tej samej logiki i bazy (IndexedDB w danej przeglądarce); ekrany i komponenty są osobne.
+
 ## Uruchomienie
 
 ```bash
@@ -62,5 +71,6 @@ krok, potrzebny dopiero przy współdzieleniu aplikacji.
 ## Struktura
 
 `src/domain` (czysta logika: daty, godziny, sumy, kolizje), `src/db` (Dexie, kopie), `src/ai` (Gemini,
-normalizacja), `src/features/*` (ekrany), `src/ui` (design system), `src/sw.ts` (service worker),
+normalizacja), `src/features/*` (ekrany mobilne), `src/ui` (design system mobilny), `src/pc` (konsola na komputer),
+`src/sw.ts` (service worker),
 `tests/unit` (Vitest), `tests/e2e` (Playwright: iPhone 12 / Pixel 7). Pełny plan: `plan-grafik-pwa.md`.

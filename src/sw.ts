@@ -22,10 +22,18 @@ export const SHARED_KEY = '/__shared-image';
 // P-09: precache z rewizjami — deploy zawsze daje spójny zestaw plików; skipWaiting dopiero po akceptacji
 precacheAndRoute(self.__WB_MANIFEST);
 cleanupOutdatedCaches();
+// BASE zawiera tylko litery, cyfry, „-”, „_”, „/” i ewentualnie kropkę — eskejpujemy znaki specjalne regexu
+const BASE_RE = BASE.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+// konsola na komputer (/pc/): własny punkt wejścia, nie aplikacja mobilna — rejestrowana przed trasą ogólną
+registerRoute(
+  new NavigationRoute(createHandlerBoundToURL(`${BASE}pc/index.html`), {
+    allowlist: [new RegExp(`^${BASE_RE}pc(/|$)`)],
+  }),
+);
 registerRoute(
   new NavigationRoute(createHandlerBoundToURL(`${BASE}index.html`), {
-    // BASE zawiera tylko litery, cyfry, „-”, „_” i „/”; kropkę w nazwie repozytorium też eskejpujemy
-    denylist: [new RegExp(`^${BASE.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(share-target|api/)`)],
+    denylist: [new RegExp(`^${BASE_RE}(share-target|api/|pc(/|$))`)],
   }),
 );
 

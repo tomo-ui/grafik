@@ -13,6 +13,12 @@ Pełny plan: `plan-grafik-pwa.md` (czytaj sekcje 1, 15, 16 przed pracą nad dan�
 - Pola formularzy ≥ 16 px, `100dvh`, `env(safe-area-inset-*)`, obszary dotyku ≥ 44 pt.
 - Max ~3 warstwy `backdrop-filter` naraz; komórki siatki bez blur (P-10).
 
+## Wersja na komputer
+
+- Osobny projekt interfejsu w `src/pc` (wejście `pc/index.html`, adres `/pc/`, routing hash). Nie importuje ekranów/komponentów mobilnych
+  (`src/ui`, `src/features/{team,my-schedule,calendar,settings,onboarding,shift-editor}`) — test w `tests/unit/deploy.test.ts`.
+  Logika i dane wspólne (`src/domain`, `src/db`, `src/ai`). Opis: `docs/pc.md`. Testy: `tests/e2e/pc-*.spec.ts` (projekty `desktop-*`).
+
 ## Polecenia
 
 - `npm run dev` · `npm run build` · `npm run preview`
