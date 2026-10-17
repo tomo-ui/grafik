@@ -11,6 +11,7 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "test": "vitest run",
+    "test:tz": "node scripts/test-tz.mjs",
     "e2e": "playwright test"
   },
   "dependencies": {

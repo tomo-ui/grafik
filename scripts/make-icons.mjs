@@ -10,7 +10,16 @@ const mark = (size, { bg = true, scale = 1 } = {}) => {
   const k = scale;
   const card = { x: s * (0.5 - 0.3 * k), y: s * (0.5 - 0.29 * k), w: s * 0.6 * k, h: s * 0.58 * k };
   const dot = s * 0.052 * k;
-  const colors = ['#FF3B30', '#34C759', '#FF9500', '#AF52DE', '#007AFF', '#FF2D55', '#30B0C7', '#FFCC00'];
+  const colors = [
+    '#FF3B30',
+    '#34C759',
+    '#FF9500',
+    '#AF52DE',
+    '#007AFF',
+    '#FF2D55',
+    '#30B0C7',
+    '#FFCC00',
+  ];
   const dots = [];
   const cols = 4;
   const rows = 3;
@@ -18,7 +27,9 @@ const mark = (size, { bg = true, scale = 1 } = {}) => {
     for (let c = 0; c < cols; c++) {
       const cx = card.x + card.w * (0.17 + (0.66 / (cols - 1)) * c);
       const cy = card.y + card.h * (0.5 + (0.38 / (rows - 1)) * (r - 0.0)) - card.h * 0.04;
-      dots.push(`<circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${dot.toFixed(1)}" fill="${colors[(r * cols + c) % colors.length]}"/>`);
+      dots.push(
+        `<circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${dot.toFixed(1)}" fill="${colors[(r * cols + c) % colors.length]}"/>`,
+      );
     }
   }
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${s}" height="${s}" viewBox="0 0 ${s} ${s}">
@@ -70,11 +81,15 @@ for (const [w, h, name] of devices) {
   const pw = w * 3;
   const ph = h * 3;
   const logo = Math.round(pw * 0.26);
-  const markPng = await sharp(Buffer.from(mark(logo))).png().toBuffer();
+  const markPng = await sharp(Buffer.from(mark(logo)))
+    .png()
+    .toBuffer();
   const rounded = await sharp(markPng)
     .composite([
       {
-        input: Buffer.from(`<svg width="${logo}" height="${logo}"><rect width="${logo}" height="${logo}" rx="${Math.round(logo * 0.225)}"/></svg>`),
+        input: Buffer.from(
+          `<svg width="${logo}" height="${logo}"><rect width="${logo}" height="${logo}" rx="${Math.round(logo * 0.225)}"/></svg>`,
+        ),
         blend: 'dest-in',
       },
     ])
@@ -84,7 +99,13 @@ for (const [w, h, name] of devices) {
     const bg = scheme === 'light' ? '#f2f2f7' : '#000000';
     const file = `splash/${pw}x${ph}-${scheme}.png`;
     await sharp({ create: { width: pw, height: ph, channels: 3, background: bg } })
-      .composite([{ input: rounded, left: Math.round((pw - logo) / 2), top: Math.round((ph - logo) / 2 - ph * 0.03) }])
+      .composite([
+        {
+          input: rounded,
+          left: Math.round((pw - logo) / 2),
+          top: Math.round((ph - logo) / 2 - ph * 0.03),
+        },
+      ])
       .png({ compressionLevel: 9 })
       .toFile(`public/${file}`);
     links.push(

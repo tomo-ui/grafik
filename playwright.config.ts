@@ -11,6 +11,7 @@ const APP_SPECS = [
   'launch.spec.ts',
   'a11y.spec.ts',
   'csp.spec.ts',
+  'offline.spec.ts',
 ];
 
 export default defineConfig({

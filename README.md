@@ -26,10 +26,10 @@ modeli — aplikacja pokazuje o tym informację przed pierwszym skanem.
 
 Wymagany HTTPS (PWA). Zbudowany katalog `dist/` to statyczna strona; reguły są w repozytorium:
 
-| Hosting                    | Konfiguracja                                                         |
-| -------------------------- | -------------------------------------------------------------------- |
-| Cloudflare Pages / Netlify | `public/_headers` (CSP, cache) i `public/_redirects` (SPA fallback)  |
-| Vercel                     | `vercel.json` (te same nagłówki i przepisania)                       |
+| Hosting                    | Konfiguracja                                                        |
+| -------------------------- | ------------------------------------------------------------------- |
+| Cloudflare Pages / Netlify | `public/_headers` (CSP, cache) i `public/_redirects` (SPA fallback) |
+| Vercel                     | `vercel.json` (te same nagłówki i przepisania)                      |
 
 Ustawienia: komenda `npm run build`, katalog wyjściowy `dist`. Polityka CSP dopuszcza połączenia tylko do
 własnej domeny i `generativelanguage.googleapis.com`; test `tests/unit/deploy.test.ts` pilnuje zgodności

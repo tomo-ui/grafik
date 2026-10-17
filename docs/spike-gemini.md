@@ -17,10 +17,10 @@
 
 ## Wyniki (do uzupełnienia)
 
-| Platforma | (a) CORS bez proxy | (b) `responseSchema` przyjęty | (b) `thinkingConfig` przyjęty | (c) czas odpowiedzi | JSON poprawny | Uwagi |
-| --- | --- | --- | --- | --- | --- | --- |
-| iPhone / Safari | ? | ? | ? | ? | ? | |
-| Android / Chrome | ? | ? | ? | ? | ? | |
+| Platforma        | (a) CORS bez proxy | (b) `responseSchema` przyjęty | (b) `thinkingConfig` przyjęty | (c) czas odpowiedzi | JSON poprawny | Uwagi |
+| ---------------- | ------------------ | ----------------------------- | ----------------------------- | ------------------- | ------------- | ----- |
+| iPhone / Safari  | ?                  | ?                             | ?                             | ?                   | ?             |       |
+| Android / Chrome | ?                  | ?                             | ?                             | ?                   | ?             |       |
 
 Decyzja: jeśli (a) nie działa na którejkolwiek platformie → od razu wariant B (proxy na Cloudflare
 Workers, plan 3 i Faza 9).

@@ -502,10 +502,9 @@ export function ScanProvider({ settings, children }: { settings: Settings; child
   return (
     <Ctx.Provider value={api}>
       {children}
-      <Suspense fallback={null}>
-        {mounted && <ScanSheet />}
-        {review && step === 'review' && <ReviewScreen />}
-      </Suspense>
+      {/* osobne granice Suspense: ładowanie ekranu weryfikacji nie może ukrywać arkusza skanowania */}
+      <Suspense fallback={null}>{mounted && <ScanSheet />}</Suspense>
+      <Suspense fallback={null}>{review && step === 'review' && <ReviewScreen />}</Suspense>
     </Ctx.Provider>
   );
 }

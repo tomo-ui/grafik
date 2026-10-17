@@ -726,11 +726,11 @@ grafik-pwa/
 
 ### Faza 10 — Audyt końcowy (obowiązkowy, przed oddaniem)
 
-- [ ] Przejdź **całą** sekcję 16.2 (audyt końcowy) i zapisz wynik w `docs/audit-report.md`.
-- [ ] Każda pułapka `P-xx` z sekcji 15 ma wskazany plik z rozwiązaniem i test/punkt scenariusza ręcznego (tabela w raporcie).
-- [ ] Każdy wiersz macierzy z sekcji 17 ma test automatyczny albo punkt scenariusza ręcznego.
-- [ ] Naprawione wszystkie znalezione błędy o wadze _krytyczny_ i _wysoki_; pozostałe opisane w raporcie z uzasadnieniem.
-- [ ] Przygotowany `docs/manual-test.md` — scenariusz z sekcji 18 do odhaczenia przez użytkownika na telefonie.
+- [x] Przejdź **całą** sekcję 16.2 (audyt końcowy) i zapisz wynik w `docs/audit-report.md`.
+- [x] Każda pułapka `P-xx` z sekcji 15 ma wskazany plik z rozwiązaniem i test/punkt scenariusza ręcznego (tabela w raporcie).
+- [x] Każdy wiersz macierzy z sekcji 17 ma test automatyczny albo punkt scenariusza ręcznego.
+- [x] Naprawione wszystkie znalezione błędy o wadze _krytyczny_ i _wysoki_; pozostałe opisane w raporcie z uzasadnieniem.
+- [x] Przygotowany `docs/manual-test.md` — scenariusz z sekcji 18 do odhaczenia przez użytkownika na telefonie.
 
 ---
 
@@ -792,6 +792,9 @@ Zasady:
 | P-23 | Zmiana czasu (DST) zmienia długość zmiany                                                        | wszędzie         | Arytmetyka minut na `HH:MM` (1.1); testy na 25.10.2026 i 28.03.2027                                                                                                                        |
 | P-24 | Sticky kolumna + sticky nagłówek w jednym kontenerze gubią się na iOS                            | iOS              | Jeden kontener `overflow: auto` dla obu osi; lewy górny narożnik z wyższym `z-index`; test wizualny                                                                                        |
 | P-25 | Utrata połączenia w trakcie zapytania AI                                                         | wszędzie         | Obsługa `TypeError`, przycisk „Ponów” z zachowanym zdjęciem (bez ponownego wyboru)                                                                                                         |
+| P-26 | zod 4 kompiluje walidatory przez `new Function` → naruszenie CSP bez `unsafe-eval`                | schema, kopia   | `z.config({ jitless: true })` w `ai/schema.ts` i `db/backup.ts` |
+| P-27 | Aktualizacja SW z przejęciem klientów podmienia pliki w trakcie edycji                            | PWA             | `registerType: 'prompt'`, `skipWaiting` dopiero po wiadomości z banneru (`sw.ts`) |
+| P-28 | Kontrast WCAG na szkle i kolorze akcentu w trybie ciemnym                                         | wszędzie        | Osobne tokeny wypełnień (`--accent-fill`, `--red-fill`) i tekstu (`--orange-text`) |
 
 Nowe pułapki odkryte w trakcie pracy dopisuj do tej tabeli (kolejne numery).
 
@@ -819,49 +822,49 @@ Waga błędów: **krytyczny** (utrata/uszkodzenie danych, crash, główna funkcj
 
 **Dane i logika**
 
-- [ ] Godziny domyślne poprawne dla każdego dnia tygodnia (Nd–Czw 12 h, Pt–Sb 13 h) — test parametryczny na pełny miesiąc.
-- [ ] Sumy godzin w widoku zespołu, „Mój grafik” i PDF identyczne (jedna funkcja, test porównawczy).
-- [ ] Zmiana godzin domyślnych nie modyfikuje historii; pytanie o aktualizację przyszłych działa.
-- [ ] Soft-delete + Cofnij dla: pojedynczej zmiany, wielu zmian, osoby z kaskadą, importu AI (z przywróceniem zastąpionych).
-- [ ] Brak duplikatów osoba+dzień po: ręcznym dodaniu, imporcie AI, imporcie kopii, cofnięciu.
-- [ ] Daty poprawne o 23:30 i 00:30 czasu polskiego i przy zmianie czasu (testy z fałszywym zegarem, `TZ=Europe/Warsaw` i `TZ=America/New_York`).
-- [ ] Eksport → wyczyszczenie danych → import kopii daje identyczny stan (test round-trip).
+- [x] Godziny domyślne poprawne dla każdego dnia tygodnia (Nd–Czw 12 h, Pt–Sb 13 h) — test parametryczny na pełny miesiąc.
+- [x] Sumy godzin w widoku zespołu, „Mój grafik” i PDF identyczne (jedna funkcja, test porównawczy).
+- [x] Zmiana godzin domyślnych nie modyfikuje historii; pytanie o aktualizację przyszłych działa.
+- [x] Soft-delete + Cofnij dla: pojedynczej zmiany, wielu zmian, osoby z kaskadą, importu AI (z przywróceniem zastąpionych).
+- [x] Brak duplikatów osoba+dzień po: ręcznym dodaniu, imporcie AI, imporcie kopii, cofnięciu.
+- [x] Daty poprawne o 23:30 i 00:30 czasu polskiego i przy zmianie czasu (testy z fałszywym zegarem, `TZ=Europe/Warsaw` i `TZ=America/New_York`).
+- [x] Eksport → wyczyszczenie danych → import kopii daje identyczny stan (test round-trip).
 
 **Skanowanie AI**
 
 - [ ] Wszystkie źródła (aparat, galeria, przycisk schowka, pole „przytrzymaj i wklej”, Ctrl/Cmd+V, drag&drop) trafiają do tego samego podglądu.
-- [ ] Każdy błąd z 4.1 ma swój komunikat (mocki: 400, 401, 403, 404, 429 z `retryDelay`, 500, timeout, offline, pusta odpowiedź, niepoprawny JSON, JSON niezgodny ze schematem).
-- [ ] Normalizacja przetestowana na fixtures: grafik transponowany, z legendą, z godzinami w komórkach, ze znacznikami X, z przekreśleniami, dwie strony.
-- [ ] Nie da się zaimportować przy nierozstrzygniętych osobach; po ubiciu aplikacji szkic wraca.
-- [ ] Aliasy zapisują się; przy kolejnym imporcie dopasowanie jest automatyczne.
+- [x] Każdy błąd z 4.1 ma swój komunikat (mocki: 400, 401, 403, 404, 429 z `retryDelay`, 500, timeout, offline, pusta odpowiedź, niepoprawny JSON, JSON niezgodny ze schematem).
+- [x] Normalizacja przetestowana na fixtures: grafik transponowany, z legendą, z godzinami w komórkach, ze znacznikami X, z przekreśleniami, dwie strony.
+- [x] Nie da się zaimportować przy nierozstrzygniętych osobach; po ubiciu aplikacji szkic wraca.
+- [x] Aliasy zapisują się; przy kolejnym imporcie dopasowanie jest automatyczne.
 
 **Widoki i interakcje**
 
 - [ ] Tydzień z 8 osobami bez poziomego przewijania na 390 pt; miesiąc z 15 osobami przewija się płynnie, sticky działa.
 - [ ] Gesty z P-07 bez wzajemnych konfliktów.
 - [ ] Sheety: detenty, zamykanie gestem, klawiatura nie zasłania, „wstecz” na Androidzie.
-- [ ] Puste stany: brak osób, brak zmian, brak „Ja”, brak klucza API, brak sieci.
-- [ ] Tryb jasny i ciemny na każdym ekranie (zrzuty).
-- [ ] Tekst systemowy 200% nie psuje układu.
+- [x] Puste stany: brak osób, brak zmian, brak „Ja”, brak klucza API, brak sieci.
+- [x] Tryb jasny i ciemny na każdym ekranie (zrzuty).
+- [x] Tekst systemowy 200% nie psuje układu.
 
 **PDF**
 
-- [ ] Tydzień i miesiąc × 1 / 10 / 25 osób × kolor / cz-b × z notatkami / bez — warianty generowane w teście do `docs/pdf-samples/`, zrasteryzowane do PNG i obejrzane.
-- [ ] Polskie znaki, podział na części, powtarzane nagłówki, numeracja stron.
-- [ ] Udostępniany plik ma rozszerzenie `.pdf`, typ `application/pdf` i poprawną nazwę.
+- [x] Tydzień i miesiąc × 1 / 10 / 25 osób × kolor / cz-b × z notatkami / bez — warianty generowane w teście do `docs/pdf-samples/`, zrasteryzowane do PNG i obejrzane.
+- [x] Polskie znaki, podział na części, powtarzane nagłówki, numeracja stron.
+- [x] Udostępniany plik ma rozszerzenie `.pdf`, typ `application/pdf` i poprawną nazwę.
 
 **PWA**
 
-- [ ] Lighthouse mobile: installable, Performance ≥ 90, Accessibility ≥ 95, Best Practices ≥ 95.
+- [x] Lighthouse mobile: installable, Performance ≥ 90, Accessibility ≥ 95, Best Practices ≥ 95.
 - [ ] Offline: uruchomienie bez sieci, pełna edycja, eksport PDF (czcionki w precache).
 - [ ] Aktualizacja wersji nie przerywa pracy i nie gubi danych.
 - [ ] Ikona, nazwa, splash, kolor paska statusu na iOS i Androidzie.
 
 **Bezpieczeństwo i prywatność**
 
-- [ ] Przeszukanie `src/` i `dist/` nie znajduje żadnego klucza API; build nie zawiera `.env` z kluczem.
-- [ ] Klucz nie trafia do kopii zapasowej, logów ani URL.
-- [ ] Komunikat o prywatności darmowego API przed pierwszym skanem.
+- [x] Przeszukanie `src/` i `dist/` nie znajduje żadnego klucza API; build nie zawiera `.env` z kluczem.
+- [x] Klucz nie trafia do kopii zapasowej, logów ani URL.
+- [x] Komunikat o prywatności darmowego API przed pierwszym skanem.
 - [x] Content-Security-Policy na hostingu: `connect-src 'self' https://generativelanguage.googleapis.com` (+ adres proxy w wariancie B).
 
 ---

@@ -34,9 +34,18 @@ const page = await browser.newPage();
 await page.route('http://pdf.local/**', async (route) => {
   const p = new URL(route.request().url()).pathname;
   if (p === '/') return route.fulfill({ contentType: 'text/html', body: html });
-  if (p === '/pdf.mjs') return route.fulfill({ contentType: 'text/javascript', body: readFileSync(`${pdfjs}/pdf.mjs`) });
-  if (p === '/pdf.worker.mjs') return route.fulfill({ contentType: 'text/javascript', body: readFileSync(`${pdfjs}/pdf.worker.mjs`) });
-  if (p === '/file.pdf') return route.fulfill({ contentType: 'application/pdf', body: readFileSync(current) });
+  if (p === '/pdf.mjs')
+    return route.fulfill({
+      contentType: 'text/javascript',
+      body: readFileSync(`${pdfjs}/pdf.mjs`),
+    });
+  if (p === '/pdf.worker.mjs')
+    return route.fulfill({
+      contentType: 'text/javascript',
+      body: readFileSync(`${pdfjs}/pdf.worker.mjs`),
+    });
+  if (p === '/file.pdf')
+    return route.fulfill({ contentType: 'application/pdf', body: readFileSync(current) });
   return route.abort();
 });
 for (const f of files) {
