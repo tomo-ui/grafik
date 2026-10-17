@@ -11,7 +11,7 @@ export interface Tab {
 
 /**
  * Pływająca kapsuła glass z „soczewką” przesuwaną sprężyną.
- * `compact` (przewijanie w dół) chowa etykiety i zmniejsza kapsułę.
+ * Same ikony (nazwa zakładki w `aria-label`); `compact` (przewijanie w dół) zmniejsza kapsułę.
  */
 export function TabBar({
   tabs,
@@ -37,6 +37,7 @@ export function TabBar({
               key={t.id}
               type="button"
               className={`${styles.tab} ${isActive ? styles.active : ''}`}
+              aria-label={t.label}
               aria-current={isActive ? 'page' : undefined}
               onClick={() => onChange(t.id)}
             >
@@ -48,7 +49,6 @@ export function TabBar({
                 />
               )}
               <span className={styles.icon}>{t.icon}</span>
-              <span className={styles.label}>{t.label}</span>
             </button>
           );
         })}

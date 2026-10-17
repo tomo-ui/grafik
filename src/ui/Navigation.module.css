@@ -47,5 +47,5 @@
 }
 .bottomSpace {
   /* miejsce na pływający TabBar */
-  height: calc(var(--sab) + 110px);
+  height: calc(var(--sab) + 96px);
 }

@@ -7,7 +7,7 @@
   -webkit-overflow-scrolling: touch;
   --nameW: 76px;
   --colW: 46px;
-  padding-bottom: calc(var(--sab) + 110px); /* miejsce na pływający TabBar */
+  padding-bottom: calc(var(--sab) + 96px); /* miejsce na pływający TabBar */
 }
 .week {
   touch-action: pan-y;

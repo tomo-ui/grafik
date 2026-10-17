@@ -188,7 +188,7 @@ button.asCancel {
   z-index: 400;
   left: calc(var(--sal) + 1rem);
   right: calc(var(--sar) + 1rem);
-  bottom: calc(var(--sab) + 90px);
+  bottom: calc(var(--sab) + 80px);
   display: flex;
   justify-content: center;
   pointer-events: none;
