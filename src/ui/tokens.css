@@ -254,3 +254,16 @@ textarea {
 #root[data-sheet-open] {
   transform: scale(0.96);
 }
+
+/*
+ * Pełny ekran telefonu (technika z aplikacji RESTORDER): powłoka przypięta do viewportu, a dokument
+ * o 2 px wyższy od ekranu — iOS rozciąga wtedy stronę aż pod wskaźnik domowy (bez pasa na dole).
+ */
+body {
+  min-height: calc(100dvh + 2px);
+}
+#root {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+}

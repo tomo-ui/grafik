@@ -5,6 +5,7 @@ import {
   activeShifts,
   clean,
   nov,
+  openPalette,
   openPc,
   readStore,
   seedPc,
@@ -468,7 +469,7 @@ test.describe('Ustawienia', () => {
 test.describe('Powłoka', () => {
   test('paleta poleceń (Ctrl+K) i skróty Alt+cyfra', async ({ page }) => {
     await start(page);
-    await page.keyboard.press('Control+k');
+    await openPalette(page);
     const dlg = page.getByRole('dialog', { name: 'Paleta poleceń' });
     await expect(dlg).toBeVisible();
     await dlg.getByRole('combobox').fill('godz');
@@ -479,7 +480,7 @@ test.describe('Powłoka', () => {
     await page.keyboard.press('Alt+1');
     await expect(page.getByRole('heading', { name: 'Listopad 2026' })).toBeVisible();
 
-    await page.keyboard.press('Control+k');
+    await openPalette(page);
     await dlg.getByRole('combobox').fill('Basia');
     await page.keyboard.press('Enter');
     await expect(page.getByRole('heading', { name: 'Osoby', exact: true })).toBeVisible();
@@ -488,7 +489,7 @@ test.describe('Powłoka', () => {
 
   test('„Dodaj osobę” z palety otwiera formularz', async ({ page }) => {
     await start(page);
-    await page.keyboard.press('Control+k');
+    await openPalette(page);
     await page
       .getByRole('dialog', { name: 'Paleta poleceń' })
       .getByRole('combobox')

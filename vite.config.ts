@@ -66,7 +66,9 @@ export default defineConfig({
         short_name: 'Grafik',
         description: 'Grafik pracy zespołu: ręcznie, ze zdjęcia, z eksportem do PDF.',
         lang: 'pl',
-        display: 'standalone',
+        // pełny ekran telefonu (bez pasków przeglądarki); gdy system nie obsłuży — zwykły standalone
+        display: 'fullscreen',
+        display_override: ['fullscreen', 'standalone'],
         orientation: 'portrait',
         start_url: base,
         scope: base,

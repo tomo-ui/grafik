@@ -16,6 +16,7 @@ export function detectPlatform(ua = navigator.userAgent): Platform {
 export function isStandalone(): boolean {
   return (
     window.matchMedia('(display-mode: standalone)').matches ||
+    window.matchMedia('(display-mode: fullscreen)').matches ||
     (navigator as Navigator & { standalone?: boolean }).standalone === true
   );
 }

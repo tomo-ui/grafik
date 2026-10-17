@@ -34,7 +34,8 @@ test('manifest: skróty (Skanuj, Dodaj, PDF), share_target i ikony maskable', as
   expect(m.share_target.params.files[0].accept).toContain('image/*');
   expect(m.icons.map((i: any) => i.purpose ?? 'any').sort()).toEqual(['any', 'any', 'maskable']);
   expect(m.start_url).toBe('/');
-  expect(m.display).toBe('standalone');
+  expect(m.display).toBe('fullscreen');
+  expect(m.display_override).toEqual(['fullscreen', 'standalone']);
 });
 
 test('splash screeny i ikony są serwowane', async ({ request, page }) => {
@@ -121,4 +122,30 @@ test('?action=shared bez zdjęcia otwiera po prostu skanowanie', async ({ page }
   await page.goto('/?action=shared');
   await expect(page.getByRole('dialog', { name: 'Skanuj grafik' })).toBeVisible();
   await expect(page.getByRole('img', { name: 'Podgląd zdjęcia grafiku' })).toHaveCount(0);
+});
+
+test('pełny ekran: powłoka przypięta do viewportu, dokument o 2 px wyższy (iOS pod wskaźnik domowy)', async ({
+  page,
+}) => {
+  await start(page);
+  const m = await page.evaluate(() => {
+    const r = document.getElementById('root')!.getBoundingClientRect();
+    return {
+      pos: getComputedStyle(document.getElementById('root')!).position,
+      top: r.top,
+      left: r.left,
+      w: r.width,
+      h: r.height,
+      vw: window.innerWidth,
+      vh: window.innerHeight,
+      bodyH: document.body.getBoundingClientRect().height,
+      htmlBg: getComputedStyle(document.documentElement).backgroundColor,
+    };
+  });
+  expect(m.pos).toBe('fixed');
+  expect([m.top, m.left]).toEqual([0, 0]);
+  expect(m.w).toBe(m.vw);
+  expect(m.h).toBe(m.vh);
+  expect(m.bodyH).toBeGreaterThanOrEqual(m.vh + 2);
+  expect(m.htmlBg).not.toBe('rgba(0, 0, 0, 0)');
 });

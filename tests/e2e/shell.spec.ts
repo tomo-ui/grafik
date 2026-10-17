@@ -26,7 +26,7 @@ test('szkielet: tytuł, meta iOS, manifest', async ({ page, request }) => {
   const res = await request.get('/manifest.webmanifest');
   expect(res.ok()).toBe(true);
   const manifest = await res.json();
-  expect(manifest.display).toBe('standalone');
+  expect(manifest.display).toBe('fullscreen');
   expect(manifest.lang).toBe('pl');
   expect(manifest.icons.some((i: { purpose?: string }) => i.purpose === 'maskable')).toBe(true);
 

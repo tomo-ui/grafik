@@ -1,6 +1,6 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test, type Page } from '@playwright/test';
-import { clean, nov, openPc, seedPc, shift, TEAM } from './pc-helpers';
+import { clean, nov, openPalette, openPc, seedPc, shift, TEAM } from './pc-helpers';
 
 const PAGES: [string, string, RegExp][] = [
   ['/', 'Grafik', /listopad 2026/i],
@@ -72,7 +72,7 @@ for (const scheme of ['light', 'dark'] as const) {
       await expect(page.getByRole('dialog', { name: 'Nowa osoba' })).toBeVisible();
       await audit(page, `modal (${scheme})`);
       await page.keyboard.press('Escape');
-      await page.keyboard.press('Control+k');
+      await openPalette(page);
       await expect(page.getByRole('dialog', { name: 'Paleta poleceń' })).toBeVisible();
       await audit(page, `paleta (${scheme})`);
     });

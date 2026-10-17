@@ -155,3 +155,14 @@ export const clean = async (page: Page) => {
   page.on('pageerror', (e) => problems.push(e.message));
   return problems;
 };
+
+/** Otwiera paletę poleceń (Ctrl+K); ponawia, jeśli skrót trafił, zanim aplikacja podpięła nasłuch. */
+export async function openPalette(page: Page) {
+  const dialog = page.getByRole('dialog', { name: 'Paleta poleceń' });
+  for (let i = 0; i < 6 && !(await dialog.isVisible()); i++) {
+    await page.keyboard.press('Control+k');
+    await dialog.waitFor({ state: 'visible', timeout: 1500 }).catch(() => {});
+  }
+  await expect(dialog).toBeVisible();
+  return dialog;
+}
