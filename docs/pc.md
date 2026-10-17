@@ -14,31 +14,31 @@ generowanie PDF), więc reguły biznesowe (godziny domyślne, sumy, daty, kolizj
 
 ## Zakładki (Alt+1 … Alt+7)
 
-| Zakładka          | Co robi                                                                                                                                                                  |
-| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Grafik            | Siatka osoby × dni (miesiąc/tydzień) z edycją jak w arkuszu, zaznaczaniem zakresów, schowkiem, wypełnianiem, cofnij/ponów, menu kontekstowym, panelem zaznaczenia, CSV    |
-| Osoby             | Tabela: dodawanie, edycja (kolor, aliasy, „To ja”), archiwizacja, usuwanie z Cofnij, kolejność, akcje grupowe, wyszukiwanie po aliasie                                   |
-| Godziny i raporty | Raport za miesiąc/rok/własny zakres: dni pracy, godziny, piątki/soboty, wolne, urlop, L4; obsada dzienna; szczegóły osoby; eksport CSV (Excel, BOM, `;`); druk            |
+| Zakładka          | Co robi                                                                                                                                                                 |
+| ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Grafik            | Siatka osoby × dni (miesiąc/tydzień) z edycją jak w arkuszu, zaznaczaniem zakresów, schowkiem, wypełnianiem, cofnij/ponów, menu kontekstowym, panelem zaznaczenia, CSV  |
+| Osoby             | Tabela: dodawanie, edycja (kolor, aliasy, „To ja”), archiwizacja, usuwanie z Cofnij, kolejność, akcje grupowe, wyszukiwanie po aliasie                                  |
+| Godziny i raporty | Raport za miesiąc/rok/własny zakres: dni pracy, godziny, piątki/soboty, wolne, urlop, L4; obsada dzienna; szczegóły osoby; eksport CSV (Excel, BOM, `;`); druk          |
 | Import ze zdjęcia | Przeciągnij/wklej/wybierz do 4 zdjęć → Gemini → weryfikacja w tabelach (przypisanie osób, edycja wpisów, kolizje, przesunięcie okresu) → import z możliwością wycofania |
-| Eksport           | PDF (siatka A4 poziomo / lista osoby A4 pionowo) z podglądem na żywo, wybór osób i zawartości; CSV siatki                                                                |
-| Dane i kopie      | Stan bazy, kopia/przywracanie JSON (scal / zastąp), historia importów z wycofaniem, Kosz (przywracanie, usuwanie na zawsze), strefa ryzyka (usunięcie wszystkiego)       |
-| Ustawienia        | Motyw, początek tygodnia, godziny domyślne (z aktualizacją przyszłych zmian), klucz i model Gemini + test połączenia, lista skrótów                                      |
+| Eksport           | PDF (siatka A4 poziomo / lista osoby A4 pionowo) z podglądem na żywo, wybór osób i zawartości; CSV siatki                                                               |
+| Dane i kopie      | Stan bazy, kopia/przywracanie JSON (scal / zastąp), historia importów z wycofaniem, Kosz (przywracanie, usuwanie na zawsze), strefa ryzyka (usunięcie wszystkiego)      |
+| Ustawienia        | Motyw, początek tygodnia, godziny domyślne (z aktualizacją przyszłych zmian), klucz i model Gemini + test połączenia, lista skrótów                                     |
 
 ## Siatka grafiku — obsługa
 
-| Akcja                                      | Skrót                                                                  |
-| ------------------------------------------ | ---------------------------------------------------------------------- |
-| Zaznaczanie                                | klik, przeciągnięcie, `Shift`+klik, `Shift`+strzałki, `Ctrl+A`         |
-| Cały wiersz / cała kolumna                 | klik w nazwę osoby / w dzień                                           |
-| Ruch                                       | strzałki, `Tab`, `Home`/`End`, `Ctrl`+strzałka (na skraj)              |
-| Wpisanie zawartości                        | zacznij pisać: `10-22`, `x` (godziny domyślne), `w`, `u`, `l4`, `i`    |
-| Edycja komórki                             | `Enter`, `F2`, podwójne kliknięcie; `Esc` anuluje                      |
-| Czyszczenie                                | `Delete` / `Backspace`                                                 |
-| Kopiuj / wytnij / wklej                    | `Ctrl+C` / `Ctrl+X` / `Ctrl+V` — wkleja też tekst z Excela (TSV)       |
-| Wypełnij w dół / w prawo                   | `Ctrl+D` / `Ctrl+R`                                                    |
-| Cofnij / ponów                             | `Ctrl+Z` / `Ctrl+Shift+Z` (`Ctrl+Y`)                                   |
-| Poprzedni / następny okres                 | `PageUp` / `PageDown`                                                  |
-| Paleta poleceń                             | `Ctrl+K`                                                               |
+| Akcja                      | Skrót                                                               |
+| -------------------------- | ------------------------------------------------------------------- |
+| Zaznaczanie                | klik, przeciągnięcie, `Shift`+klik, `Shift`+strzałki, `Ctrl+A`      |
+| Cały wiersz / cała kolumna | klik w nazwę osoby / w dzień                                        |
+| Ruch                       | strzałki, `Tab`, `Home`/`End`, `Ctrl`+strzałka (na skraj)           |
+| Wpisanie zawartości        | zacznij pisać: `10-22`, `x` (godziny domyślne), `w`, `u`, `l4`, `i` |
+| Edycja komórki             | `Enter`, `F2`, podwójne kliknięcie; `Esc` anuluje                   |
+| Czyszczenie                | `Delete` / `Backspace`                                              |
+| Kopiuj / wytnij / wklej    | `Ctrl+C` / `Ctrl+X` / `Ctrl+V` — wkleja też tekst z Excela (TSV)    |
+| Wypełnij w dół / w prawo   | `Ctrl+D` / `Ctrl+R`                                                 |
+| Cofnij / ponów             | `Ctrl+Z` / `Ctrl+Shift+Z` (`Ctrl+Y`)                                |
+| Poprzedni / następny okres | `PageUp` / `PageDown`                                               |
+| Paleta poleceń             | `Ctrl+K`                                                            |
 
 Każda zmiana zapisuje się od razu (soft-delete — usunięte zmiany wracają z Kosza przez 30 dni).
 Cofnij/ponów przywraca te same rekordy (to samo `id`), więc nie powstają duplikaty osoba+dzień.
