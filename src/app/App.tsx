@@ -1,7 +1,7 @@
 import { lazy, Suspense, useState, type ComponentType } from 'react';
 import { useRegisterSW } from 'virtual:pwa-register/react';
 import { CalendarDays, Settings as SettingsIcon, UserRound, Users } from 'lucide-react';
-import { Route, Switch, useLocation } from 'wouter';
+import { Route, Router, Switch, useLocation } from 'wouter';
 import { Plus } from 'lucide-react';
 import { MenuButton, Screen, TabBar, ToastProvider, type Tab } from '../ui';
 import { ShiftEditorProvider, useShiftEditor } from '../features/shift-editor/ShiftEditorContext';
@@ -156,7 +156,9 @@ export function App() {
           <UiCatalog />
         </Suspense>
       ) : (
-        <Shell />
+        <Router base={import.meta.env.BASE_URL.replace(/[/]$/, '')}>
+          <Shell />
+        </Router>
       )}
       {needRefresh && (
         <div role="status" className={`${styles.banner} glass`}>

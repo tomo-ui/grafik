@@ -12,6 +12,9 @@ declare let self: ServiceWorkerGlobalScope & {
   __WB_MANIFEST: Array<string | { url: string; revision: string | null }>;
 };
 
+/** Baza aplikacji: „/” lokalnie, „/grafik/” na GitHub Pages. */
+const BASE = (import.meta as unknown as { env: { BASE_URL: string } }).env.BASE_URL;
+
 /** Cache, w którym dzielone z Androida zdjęcie czeka na odebranie przez aplikację. */
 export const SHARE_CACHE = 'grafik-share';
 export const SHARED_KEY = '/__shared-image';
@@ -20,15 +23,16 @@ export const SHARED_KEY = '/__shared-image';
 precacheAndRoute(self.__WB_MANIFEST);
 cleanupOutdatedCaches();
 registerRoute(
-  new NavigationRoute(createHandlerBoundToURL('/index.html'), {
-    denylist: [/^\/share-target/, /^\/api\//],
+  new NavigationRoute(createHandlerBoundToURL(`${BASE}index.html`), {
+    // BASE zawiera tylko litery, cyfry, „-”, „_” i „/”; kropkę w nazwie repozytorium też eskejpujemy
+    denylist: [new RegExp(`^${BASE.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(share-target|api/)`)],
   }),
 );
 
 // AI i proxy zawsze przez sieć (nigdy z cache)
 registerRoute(
   ({ url }) =>
-    url.hostname === 'generativelanguage.googleapis.com' || url.pathname.startsWith('/api/'),
+    url.hostname === 'generativelanguage.googleapis.com' || url.pathname.startsWith(`${BASE}api/`),
   new NetworkOnly(),
 );
 
@@ -37,7 +41,7 @@ registerRoute(
  * Zapisujemy plik w Cache API i przekierowujemy na /?action=shared — aplikacja otwiera skanowanie.
  */
 registerRoute(
-  ({ url }) => url.pathname === '/share-target',
+  ({ url }) => url.pathname === `${BASE}share-target`,
   async ({ request }) => {
     try {
       const form = await request.formData();
@@ -50,12 +54,12 @@ registerRoute(
             headers: { 'Content-Type': file.type, 'X-File-Name': encodeURIComponent(file.name) },
           }),
         );
-        return Response.redirect('/?action=shared', 303);
+        return Response.redirect(`${BASE}?action=shared`, 303);
       }
     } catch {
       /* uszkodzone żądanie — wracamy na ekran główny */
     }
-    return Response.redirect('/', 303);
+    return Response.redirect(BASE, 303);
   },
   'POST',
 );

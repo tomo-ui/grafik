@@ -10,7 +10,7 @@ Dane zostają na urządzeniu (IndexedDB).
 npm install
 npm run dev          # serwer deweloperski
 npm run build        # produkcja do dist/
-npm run preview      # podgląd produkcji (z nagłówkami CSP z public/_headers)
+npm run preview      # podgląd produkcji (z nagłówkiem CSP z config/csp.txt)
 ```
 
 Kontrola przed commitem: `npm run typecheck && npm run lint && npm run test && npm run e2e`.
@@ -22,24 +22,25 @@ _Ustawienia → Skanowanie AI_. Zapisuje się tylko lokalnie, jest pomijany w ko
 trafia do adresów URL ani logów. Na darmowym planie Google może używać wysłanych zdjęć do ulepszania
 modeli — aplikacja pokazuje o tym informację przed pierwszym skanem.
 
-## Wdrożenie
+## Wdrożenie (GitHub Pages)
 
-Wymagany HTTPS (PWA). Zbudowany katalog `dist/` to statyczna strona; reguły są w repozytorium:
+Aplikacja jest statyczna i publikuje się wyłącznie przez GitHub — bez zewnętrznych usług. Workflow
+`.github/workflows/pages.yml` przy każdym pushu na `master` uruchamia typecheck, lint i testy, buduje
+aplikację z bazą `/<nazwa-repozytorium>/` i wdraża ją na GitHub Pages.
 
-| Hosting                    | Konfiguracja                                                        |
-| -------------------------- | ------------------------------------------------------------------- |
-| Cloudflare Pages / Netlify | `public/_headers` (CSP, cache) i `public/_redirects` (SPA fallback) |
-| Vercel                     | `vercel.json` (te same nagłówki i przepisania)                      |
+**Jednorazowo:** w repozytorium _Settings → Pages → Build and deployment → Source: GitHub Actions_.
+Adres: `https://<użytkownik>.github.io/grafik/` (HTTPS jest wymagany dla PWA).
 
-Ustawienia: komenda `npm run build`, katalog wyjściowy `dist`. Polityka CSP dopuszcza połączenia tylko do
-własnej domeny i `generativelanguage.googleapis.com`; test `tests/unit/deploy.test.ts` pilnuje zgodności
-`_headers` z `vercel.json`. `sw.js` i `index.html` mają `no-cache`, pliki w `assets/` — cache bezterminowy.
+- GitHub Pages nie ustawia nagłówków, więc polityka CSP (`config/csp.txt`) trafia do `<meta>` w buildzie.
+  Dopuszcza połączenia tylko do własnej domeny i `generativelanguage.googleapis.com`.
+- Odświeżenie na podstronie (np. `/grafik/team`) obsługuje `404.html` — kopia `index.html`, generowana w buildzie.
+- Lokalny build jak na Pages: `BASE_PATH=/grafik/ npm run build` (bez `BASE_PATH` baza to `/`).
 
 Instalacja: iPhone — Safari → Udostępnij → _Dodaj do ekranu początkowego_; Android — menu Chrome →
 _Zainstaluj aplikację_. Kopię danych (Ustawienia → Dane) wykonaj przed przeniesieniem z karty Safari do
 zainstalowanej aplikacji (to osobne magazyny danych).
 
-Android: _Udostępnij_ zdjęcie z galerii → „Grafik” otwiera skanowanie; skróty ikony: Skanuj, Dodaj, PDF.
+Android: _Udostępnij_ zdjęcie z galerii → „Grafik" otwiera skanowanie; skróty ikony: Skanuj, Dodaj, PDF.
 
 ## Wariant z proxy (opcjonalny, dla współpracowników)
 
@@ -54,7 +55,7 @@ npx wrangler secret put INVITE_TOKENS      # np. token1,token2
 npx wrangler deploy
 ```
 
-Do `connect-src` w CSP dopisz adres Workera. Handler jest przetestowany (`tests/unit/worker.test.ts`);
+Do `connect-src` w `config/csp.txt` dopisz adres Workera, a `ALLOWED_ORIGIN` ustaw na `https://<użytkownik>.github.io`. Handler jest przetestowany (`tests/unit/worker.test.ts`);
 aplikacja domyślnie łączy się bezpośrednio z Gemini (wariant A) — przełączenie klienta na proxy to osobny
 krok, potrzebny dopiero przy współdzieleniu aplikacji.
 
